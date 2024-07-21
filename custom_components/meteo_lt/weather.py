@@ -4,21 +4,23 @@
 
 from typing import List, Dict, Union
 from homeassistant.components.weather import WeatherEntity, WeatherEntityFeature
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
     UnitOfPressure,
     UnitOfPrecipitationDepth,
 )
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN, LOGGER
 
 
-async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
-    """Setting up platform"""
-    LOGGER.debug("Setting up platform")
-    coordinator = hass.data[DOMAIN]["coordinator"]
-    nearest_place = hass.data[DOMAIN]["nearest_place"]
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities):
+    """Set up Meteo LT weather based on a config entry."""
+    LOGGER.debug("Setting up config entry")
+    coordinator = hass.data[DOMAIN][entry.entry_id]["coordinator"]
+    nearest_place = hass.data[DOMAIN][entry.entry_id]["nearest_place"]
     async_add_entities([MeteoLtWeather(coordinator, nearest_place)], True)
 
 

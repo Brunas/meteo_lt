@@ -8,7 +8,7 @@ Home Assistant integration for Meteo.Lt REST API
 
 <a href="https://www.buymeacoffee.com/Brunas" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 145px !important;" ></a>
 
-This integration adds support for retrieving the Forecast data from [Api.Meteo.Lt](https://api.meteo.lt).
+This integration adds support for retrieving the Forecast data from [<img width="90" height="80" src="https://github.com/Brunas/meteo_lt/blob/main/images/logo.png?raw=true"> Api.Meteo.Lt](https://api.meteo.lt).
 
 This integration will set up the Home Assistant `weather` entity, with current data, and hourly forecast data. The first Forecast data record is treated as current data.
 
