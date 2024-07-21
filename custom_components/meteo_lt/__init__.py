@@ -9,14 +9,14 @@ from .const import DOMAIN, LOGGER
 from .coordinator import MeteoLtCoordinator
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
-    """Set up the Meteo LT component."""
-    LOGGER.info("Setting up Meteo LT")
+    """Set up the Meteo.Lt component."""
+    LOGGER.info("Setting up Meteo.Lt")
     hass.data.setdefault(DOMAIN, {})
     return True
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up Meteo LT from a config entry."""
-    LOGGER.info("Setting up Meteo LT from config entry")
+    """Set up Meteo.Lt from a config entry."""
+    LOGGER.info("Setting up Meteo.Lt from config entry")
 
     api = MeteoLtAPI()
     latitude = entry.data.get("latitude", hass.config.latitude)
@@ -41,7 +41,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
-    LOGGER.info("Unloading Meteo LT config entry")
+    LOGGER.info("Unloading Meteo.Lt config entry")
 
     unload_ok = await hass.config_entries.async_forward_entry_unload(entry, "weather")
     if unload_ok:

@@ -17,7 +17,7 @@ from .const import DOMAIN, LOGGER
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities):
-    """Set up Meteo LT weather based on a config entry."""
+    """Set up Meteo.Lt weather based on a config entry."""
     LOGGER.debug("Setting up config entry")
     coordinator = hass.data[DOMAIN][entry.entry_id]["coordinator"]
     nearest_place = hass.data[DOMAIN][entry.entry_id]["nearest_place"]
@@ -30,7 +30,7 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
     def __init__(self, coordinator, nearest_place):
         """__init__"""
         super().__init__(coordinator)
-        self._name = f"Meteo LT {nearest_place.name}"
+        self._name = f"Meteo.Lt {nearest_place.name}"
 
     @property
     def name(self):
