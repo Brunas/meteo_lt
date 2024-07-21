@@ -1,0 +1,37 @@
+{
+    "name": "Home Assistant Dev Container",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "python.pythonPath": "/usr/local/bin/python",
+                "terminal.integrated.shell.linux": "/bin/bash"
+              },
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-toolsai.jupyter",
+                "ms-python.black-formatter",
+                "ms-python.autopep8",
+                "ms-python.pylint",
+                "ms-vscode.remote-containers",
+                "charliermarsh.ruff"
+            ]
+        }
+    },
+    "postCreateCommand": "pip install -r requirements.txt",
+    "remoteUser": "vscode",
+    "mounts": [
+        "source=${localWorkspaceFolder}/config,target=/config,type=bind",
+        "source=${localWorkspaceFolder}/custom_components,target=/config/custom_components,type=bind"
+    ],
+    "forwardPorts": [
+        8123
+    ],
+    "remoteEnv": {
+        "TZ": "Europe/Vilnius"
+    }
+}

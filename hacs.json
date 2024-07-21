@@ -1,0 +1,5 @@
+{
+    "name": "Meteo.Lt Integration",
+    "homeassistant": "2024.7.3",
+    "render_readme": false
+}
