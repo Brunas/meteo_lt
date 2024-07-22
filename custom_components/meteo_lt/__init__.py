@@ -1,12 +1,17 @@
 """__init__.py"""
 
+from typing import Final
+
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import ConfigType
 
 from meteo_lt import MeteoLtAPI
 from .const import DOMAIN, LOGGER
 from .coordinator import MeteoLtCoordinator
+
+PLATFORMS: Final = [Platform.WEATHER]
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Meteo.Lt from a config entry."""
@@ -32,7 +37,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         "coordinator": coordinator,
     }
 
-    await hass.config_entries.async_forward_entry_setups(entry, ["weather"])
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     return True
 
@@ -40,7 +45,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     LOGGER.info("Unloading Meteo.Lt config entry")
 
-    unload_ok = await hass.config_entries.async_forward_entry_unload(entry, "weather")
+    unload_ok = await hass.config_entries.async_forward_entry_unload(entry, PLATFORMS)
     if unload_ok:
         hass.data[DOMAIN].pop(entry.entry_id)
 

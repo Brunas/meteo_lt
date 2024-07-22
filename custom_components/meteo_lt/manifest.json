@@ -9,6 +9,5 @@
     "integration_type": "service",
     "loggers": ["meteo_lt"],
     "requirements": ["meteo_lt-pkg==0.1.4"],
-    "dependencies": [],
-    "supported_platforms": ["weather"]
+    "dependencies": []
 }
