@@ -2,6 +2,7 @@
 
 # pylint: disable=unused-argument, abstract-method
 
+from functools import cached_property
 from typing import List, Dict, Union
 from homeassistant.components.weather import WeatherEntity, WeatherEntityFeature
 from homeassistant.config_entries import ConfigEntry
@@ -37,72 +38,72 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
         """Name"""
         return self._name
 
-    @property
+    @cached_property
     def native_temperature(self):
         """Native temperature"""
         return self.coordinator.data.forecast_timestamps[0].temperature
 
-    @property
+    @cached_property
     def native_temperature_unit(self):
         """Native temperature unit"""
         return UnitOfTemperature.CELSIUS
 
-    @property
+    @cached_property
     def humidity(self):
         """Humidity"""
         return self.coordinator.data.forecast_timestamps[0].humidity
 
-    @property
+    @cached_property
     def native_wind_speed(self):
         """Native wind speed"""
         return self.coordinator.data.forecast_timestamps[0].wind_speed
 
-    @property
+    @cached_property
     def native_wind_speed_unit(self):
         """Native wind speed unit"""
         return UnitOfSpeed.METERS_PER_SECOND
 
-    @property
+    @cached_property
     def wind_bearing(self):
         """Native wind bearing"""
         return self.coordinator.data.forecast_timestamps[0].wind_bearing
 
-    @property
+    @cached_property
     def native_pressure(self):
         """Native pressure"""
         return self.coordinator.data.forecast_timestamps[0].pressure
 
-    @property
+    @cached_property
     def native_pressure_unit(self):
         """Native pressure unit"""
         return UnitOfPressure.HPA
 
-    @property
+    @cached_property
     def native_precipitation(self):
         """Native precipitation"""
         return self.coordinator.data.forecast_timestamps[0].precipitation
 
-    @property
+    @cached_property
     def native_precipitation_unit(self):
         """Native precipitation unit"""
         return UnitOfPrecipitationDepth.MILLIMETERS
 
-    @property
+    @cached_property
     def condition(self):
         """Condition"""
         return self.coordinator.data.forecast_timestamps[0].condition
 
-    @property
+    @cached_property
     def cloud_coverage(self):
         """Cloud coverage"""
         return self.coordinator.data.forecast_timestamps[0].cloud_coverage
 
-    @property
+    @cached_property
     def native_apparent_temperature(self):
         """Native apparent temperature"""
         return self.coordinator.data.forecast_timestamps[0].apparent_temperature
 
-    @property
+    @cached_property
     def native_wind_gust_speed(self):
         """Native wind gust speed"""
         return self.coordinator.data.forecast_timestamps[0].wind_gust_speed
@@ -132,6 +133,10 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
                 "humidity": entry.humidity,
                 "native_precipitation": entry.precipitation,
                 "condition": entry.condition,
+                "native_temperature_unit": UnitOfTemperature.CELSIUS,
+                "native_wind_speed_unit":UnitOfSpeed.METERS_PER_SECOND,
+                "native_pressure_unit": UnitOfPressure.HPA,
+                "native_precipitation_unit": UnitOfPrecipitationDepth.MILLIMETERS,
             }
             for entry in self.coordinator.data.forecast_timestamps
         ]
