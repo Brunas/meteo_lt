@@ -8,15 +8,11 @@ from meteo_lt import MeteoLtAPI
 from .const import DOMAIN, LOGGER
 from .coordinator import MeteoLtCoordinator
 
-async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
-    """Set up the Meteo.Lt component."""
-    LOGGER.info("Setting up Meteo.Lt")
-    hass.data.setdefault(DOMAIN, {})
-    return True
-
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Meteo.Lt from a config entry."""
     LOGGER.info("Setting up Meteo.Lt from config entry")
+
+    hass.data.setdefault(DOMAIN, {})
 
     api = MeteoLtAPI()
     latitude = entry.data.get("latitude", hass.config.latitude)
@@ -29,6 +25,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     coordinator = MeteoLtCoordinator(hass, api, nearest_place)
     await coordinator.async_refresh()
 
+    entry.async_on_unload(entry.add_update_listener(_async_update_listener))
     hass.data[DOMAIN][entry.entry_id] = {
         "api": api,
         "nearest_place": nearest_place,
@@ -48,3 +45,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         hass.data[DOMAIN].pop(entry.entry_id)
 
     return unload_ok
+
+async def _async_update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    """Update listener."""
+    await hass.config_entries.async_reload(entry.entry_id)

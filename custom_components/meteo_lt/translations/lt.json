@@ -1,0 +1,27 @@
+{
+    "title": "Meteo.Lt integracija",
+    "config": {
+        "step": {
+            "user": {
+                "title": "Konfigūruoti Meteo.Lt",
+                "description": "Nustatyti Meteo.Lt integraciją su Home Assistant.",
+                "data": {
+                    "latitude": "Platuma (latitude)",
+                    "longitude": "Ilguma (longitude)"
+                }
+            },
+            "reconfigure": {
+                "title": "Perkonfigūruoti Meteo.Lt",
+                "description": "Atnaujinti Meteo.Lt integracijos nustatymus.",
+                "data": {
+                    "latitude": "Platuma (latitude)",
+                    "longitude": "Ilguma (longitude)"
+                }
+            },
+            "reconfigure_confirm": {
+                "title": "Patvirtinti perkonfigūravimą",
+                "description": "Ar jūs tikrai norite perkonfigūruoti Meteo.Lt integraciją?"
+            }
+        }
+    }
+}
