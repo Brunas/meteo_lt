@@ -8,8 +8,8 @@ Home Assistant integration for Meteo.Lt REST API
 
 <a href="https://www.buymeacoffee.com/Brunas" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 145px !important;" ></a>
 
-This integration adds support for retrieving the Forecast data from [<img width="90" height="80" src="https://github.com/Brunas/meteo_lt/blob/main/images/logo.png?raw=true"> Api.Meteo.Lt](https://api.meteo.lt).
-
+<img width="90" height="80" src="https://github.com/Brunas/meteo_lt/blob/main/images/icon.png?raw=true" style="float: left; margin-right: 20px; margin-top: 10px;" >
+This integration adds support for retrieving the Forecast data from [Api.Meteo.Lt](https://api.meteo.lt).
 This integration will set up the Home Assistant `weather` entity, with current data, and hourly forecast data. The first Forecast data record is treated as current data.
 
 Minimum required version of Home Assistant is **2024.7.3** as this integration uses the new Weather entity forecast types and it does **not** create Forecast Attributes.
@@ -28,7 +28,9 @@ If you are not familiar with HACS, or haven't installed it, I would recommend to
 1. Download _all_ the files from the `custom_components/meteo_lt/` directory (folder) in this repository.
 1. Place the files you downloaded in the new directory (folder) you created.
 1. Restart Home Assistant
-1. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "Meteo.Lt"
+1. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "Meteo.Lt":
+     - Enter latitude and longitude to use for the integration. Default values are Home Assistant Home location.
+     - Unlimitted number of locations are supported - `weather.meteo_lt_ABCD` entity is created where `ABCD` is name of the nearest calculated place from available places in api.meteo.lt.
 
 ## Enable Debug Logging
 
