@@ -8,7 +8,7 @@ Home Assistant integration for Meteo.Lt REST API
 
 <a href="https://www.buymeacoffee.com/Brunas" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 145px !important;" ></a>
 
-<img width="90" height="80" src="https://github.com/Brunas/meteo_lt/blob/main/images/icon.png?raw=true" style="float: left; margin-right: 20px; margin-top: 10px;" >
+<img width="90" height="90" src="https://github.com/Brunas/meteo_lt/blob/main/images/icon.png?raw=true" style="float: left; margin-right: 20px; margin-top: 10px;" >
 This integration adds support for retrieving the Forecast data from [Api.Meteo.Lt](https://api.meteo.lt).
 This integration will set up the Home Assistant `weather` entity, with current data, and hourly forecast data. The first Forecast data record is treated as current data.
 
@@ -30,7 +30,7 @@ If you are not familiar with HACS, or haven't installed it, I would recommend to
 1. Restart Home Assistant
 1. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "Meteo.Lt":
      - Enter latitude and longitude to use for the integration. Default values are Home Assistant Home location.
-     - Unlimitted number of locations are supported - `weather.meteo_lt_ABCD` entity is created where `ABCD` is name of the nearest calculated place from available places in api.meteo.lt.
+     - Unlimitted number of locations is supported - `weather.meteo_lt_ABCD` entity is created where `ABCD` is name of the nearest calculated place from available places in api.meteo.lt. Note, that if an entity for the same place exists, new entity gets numeric suffix to the name.
 
 ## Enable Debug Logging
 
