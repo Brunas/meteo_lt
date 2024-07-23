@@ -26,7 +26,7 @@ class MeteoLtCurrentConditionsSensor(CoordinatorEntity, SensorEntity):
         super().__init__(coordinator)
         self._name = f"Meteo.Lt {nearest_place.name} - Current Conditions"
         self._state = None
-        self._attr_unique_id = f"{config_entry.unique_id}-sensor"
+        self._attr_unique_id = f"{config_entry.entry_id}-sensor"
 
     @property
     def name(self):
@@ -42,7 +42,7 @@ class MeteoLtCurrentConditionsSensor(CoordinatorEntity, SensorEntity):
     def extra_state_attributes(self):
         """Return the state attributes."""
         current_conditions = self.coordinator.data.current_conditions()
-        LOGGER.debug(f"Current conditions: %s", current_conditions)
+        LOGGER.debug("Current conditions: %s", current_conditions)
         
         return {
             "native_temperature": current_conditions.temperature,

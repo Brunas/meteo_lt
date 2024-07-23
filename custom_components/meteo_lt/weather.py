@@ -33,7 +33,7 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
         """__init__"""
         super().__init__(coordinator)
         self._name = f"Meteo.Lt {nearest_place.name}"
-        self._attr_unique_id = config_entry.unique_id
+        self._attr_unique_id = config_entry.entry_id
 
     @property
     def name(self):
