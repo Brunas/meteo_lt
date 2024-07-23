@@ -1,4 +1,6 @@
 # Meteo.LT integration for Home Assistant
+<img width="90" height="90" src="https://github.com/Brunas/meteo_lt/blob/main/images/icon.png?raw=true" style="float: left; margin-right: 20px; margin-top: 10px;" >
+
 Home Assistant integration for Meteo.Lt REST API
 
 [![GitHub Release][releases-shield]][releases]
@@ -8,9 +10,12 @@ Home Assistant integration for Meteo.Lt REST API
 
 <a href="https://buymeacoffee.com/pdfdc52z8h" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 145px !important;" ></a>
 
-<img width="90" height="90" src="https://github.com/Brunas/meteo_lt/blob/main/images/icon.png?raw=true" style="float: left; margin-right: 20px; margin-top: 10px;" >
-This integration adds support for retrieving the Forecast data from [Api.Meteo.Lt](https://api.meteo.lt).
-This integration will set up the Home Assistant `weather` entity, with current data, and hourly forecast data. The first Forecast data record is treated as current data.
+This integration adds support for retrieving the Forecast data from [Api.Meteo.Lt](https://api.meteo.lt) and setting up following platforms in Home Assistant:
+
+Platform | Description
+-- | --
+`weather` | A Home Assistant `weather` entity, with current data, and hourly forecast data. The first forecast record is treated as current data.
+`sensor` | A Home Assistant `sensor` entity, with all available data taken from the forecast first record.
 
 Minimum required version of Home Assistant is **2024.7.3** as this integration uses the new Weather entity forecast types and it does **not** create Forecast Attributes.
 

@@ -11,7 +11,7 @@ from meteo_lt import MeteoLtAPI
 from .const import DOMAIN, LOGGER
 from .coordinator import MeteoLtCoordinator
 
-PLATFORMS: Final = [Platform.WEATHER]
+PLATFORMS: Final = [Platform.WEATHER, Platform.SENSOR]
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Meteo.Lt from a config entry."""
