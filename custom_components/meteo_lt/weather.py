@@ -13,30 +13,42 @@ from homeassistant.const import (
     UnitOfPrecipitationDepth,
 )
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN, LOGGER
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities):
     """Set up Meteo.Lt weather based on a config entry."""
-    LOGGER.debug("Setting up config entry")
+    LOGGER.debug("Weather Setting up config entry %s", entry)
     coordinator = hass.data[DOMAIN][entry.entry_id]["coordinator"]
     nearest_place = hass.data[DOMAIN][entry.entry_id]["nearest_place"]
-    async_add_entities([MeteoLtWeather(coordinator, nearest_place)], True)
+    async_add_entities([MeteoLtWeather(coordinator, nearest_place, entry)], True)
 
 
 class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
     """Meteo.lt WeatherEntity implementation"""
 
-    def __init__(self, coordinator, nearest_place):
+    def __init__(self, coordinator, nearest_place, config_entry):
         """__init__"""
         super().__init__(coordinator)
         self._name = f"Meteo.Lt {nearest_place.name}"
+        self._attr_unique_id = config_entry.unique_id
 
     @property
     def name(self):
         """Name"""
         return self._name
+
+    @property
+    def device_info(self):
+        """device info"""
+        return {
+            "entry_type": DeviceEntryType.SERVICE,
+            "identifiers": {(DOMAIN, self._attr_unique_id)},
+            "name": self._name,
+            "manufacturer": "Meteo.Lt"
+        }
 
     @cached_property
     def native_temperature(self):

@@ -7,23 +7,26 @@ from homeassistant.const import (
     UnitOfPressure,
     UnitOfPrecipitationDepth,
 )
+from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN, LOGGER
 
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up Meteo LT sensors based on a config entry."""
+    LOGGER.debug("Sensor setting up config entry %s", entry)
     coordinator = hass.data[DOMAIN][entry.entry_id]["coordinator"]
     nearest_place = hass.data[DOMAIN][entry.entry_id]["nearest_place"]
-    async_add_entities([MeteoLtCurrentConditionsSensor(coordinator, nearest_place)])
+    async_add_entities([MeteoLtCurrentConditionsSensor(coordinator, nearest_place, entry)])
 
 class MeteoLtCurrentConditionsSensor(CoordinatorEntity, SensorEntity):
     """Representation of a Meteo.Lt Current Conditions Sensor."""
 
-    def __init__(self, coordinator, nearest_place):
+    def __init__(self, coordinator, nearest_place, config_entry):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._name = f"Meteo.Lt {nearest_place.name} - Current Conditions"
         self._state = None
+        self._attr_unique_id = f"{config_entry.unique_id}-sensor"
 
     @property
     def name(self):
