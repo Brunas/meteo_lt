@@ -6,7 +6,7 @@ Home Assistant integration for Meteo.Lt REST API
 [![License][license-shield]](LICENSE)
 ![Project Maintenance][maintenance-shield]
 
-<a href="https://www.buymeacoffee.com/Brunas" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 145px !important;" ></a>
+<a href="https://buymeacoffee.com/pdfdc52z8h" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 145px !important;" ></a>
 
 <img width="90" height="90" src="https://github.com/Brunas/meteo_lt/blob/main/images/icon.png?raw=true" style="float: left; margin-right: 20px; margin-top: 10px;" >
 This integration adds support for retrieving the Forecast data from [Api.Meteo.Lt](https://api.meteo.lt).
