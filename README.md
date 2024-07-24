@@ -49,6 +49,15 @@ logger:
     custom_components.meteo_lt: debug
 ```
 
+## Inspired by
+
+[WeatherFlow Cloud](https://www.home-assistant.io/integrations/weatherflow_cloud/)
+
+[SMHI](https://www.home-assistant.io/integrations/smhi/)
+
+[OpenWeatherMap](https://www.home-assistant.io/integrations/openweathermap/)
+
+
 ***
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/Brunas/meteo_lt.svg?style=flat-square
