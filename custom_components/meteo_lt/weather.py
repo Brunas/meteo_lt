@@ -13,17 +13,30 @@ from homeassistant.const import (
     UnitOfPrecipitationDepth,
 )
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
+from homeassistant.helpers.device_registry import DeviceEntryType
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from .const import DOMAIN, LOGGER
+from .const import DOMAIN, MANUFACTURER, LOGGER
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities):
+async def async_setup_entry(
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities
+):
     """Set up Meteo.Lt weather based on a config entry."""
-    LOGGER.debug("Weather Setting up config entry %s", entry)
-    coordinator = hass.data[DOMAIN][entry.entry_id]["coordinator"]
-    nearest_place = hass.data[DOMAIN][entry.entry_id]["nearest_place"]
-    async_add_entities([MeteoLtWeather(coordinator, nearest_place, entry)], True)
+    LOGGER.debug(
+        "Weather setting up input: hass.data - %s, config entry - %s",
+        hass.data[DOMAIN][entry.entry_id],
+        entry,
+    )
+    async_add_entities(
+        [
+            MeteoLtWeather(
+                hass.data[DOMAIN][entry.entry_id]["coordinator"],
+                hass.data[DOMAIN][entry.entry_id]["nearest_place"],
+                entry,
+            )
+        ],
+        True,
+    )
 
 
 class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
@@ -32,13 +45,8 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
     def __init__(self, coordinator, nearest_place, config_entry):
         """__init__"""
         super().__init__(coordinator)
-        self._name = f"Meteo.Lt {nearest_place.name}"
+        self._attr_name = f"{config_entry.title} {nearest_place.name}"
         self._attr_unique_id = config_entry.entry_id
-
-    @property
-    def name(self):
-        """Name"""
-        return self._name
 
     @property
     def device_info(self):
@@ -46,8 +54,8 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
         return {
             "entry_type": DeviceEntryType.SERVICE,
             "identifiers": {(DOMAIN, self._attr_unique_id)},
-            "name": self._name,
-            "manufacturer": "Meteo.Lt"
+            "name": self._attr_name,
+            "manufacturer": MANUFACTURER,
         }
 
     @cached_property
@@ -146,7 +154,7 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
                 "native_precipitation": entry.precipitation,
                 "condition": entry.condition,
                 "native_temperature_unit": UnitOfTemperature.CELSIUS,
-                "native_wind_speed_unit":UnitOfSpeed.METERS_PER_SECOND,
+                "native_wind_speed_unit": UnitOfSpeed.METERS_PER_SECOND,
                 "native_pressure_unit": UnitOfPressure.HPA,
                 "native_precipitation_unit": UnitOfPrecipitationDepth.MILLIMETERS,
             }

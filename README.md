@@ -35,11 +35,11 @@ If you are not familiar with HACS, or haven't installed it, I would recommend to
 1. Restart Home Assistant
 1. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "Meteo.Lt":
      - Enter latitude and longitude to use for the integration. Default values are Home Assistant Home location.
-     - Unlimitted number of locations is supported - `weather.meteo_lt_ABCD` entity is created where `ABCD` is name of the nearest calculated place from available places in api.meteo.lt. Note, that if an entity for the same place exists, new entity gets numeric suffix to the name.
+     - Unlimitted number of locations is supported - `weather.meteo_lt_ABCD` and `sensor.meteo_lt_ABCD_current_conditions` entities are created where `ABCD` is name of the nearest calculated place from available places in api.meteo.lt. Note, that if an entity for the same place exists, new entity gets numeric suffix to the name.
 
 ## Enable Debug Logging
 
-If logs are needed for debugging or reporting an issue, use the following configuration.yaml:
+If logs are needed for debugging or reporting an issue, turn debugging in integration UI or use the following configuration.yaml:
 
 ```yaml
 logger:

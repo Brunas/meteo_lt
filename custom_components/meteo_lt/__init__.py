@@ -5,17 +5,17 @@ from typing import Final
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.typing import ConfigType
 
 from meteo_lt import MeteoLtAPI
-from .const import DOMAIN, LOGGER
+from .const import DOMAIN, MANUFACTURER, LOGGER
 from .coordinator import MeteoLtCoordinator
 
 PLATFORMS: Final = [Platform.WEATHER, Platform.SENSOR]
 
+
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Meteo.Lt from a config entry."""
-    LOGGER.info("Setting up Meteo.Lt from config entry")
+    LOGGER.info("Setting up %s from config entry", MANUFACTURER)
 
     hass.data.setdefault(DOMAIN, {})
 
@@ -41,13 +41,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     return True
 
+
 async def async_update_options(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Update options."""
     await hass.config_entries.async_reload(entry.entry_id)
 
+
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+
 
 async def _async_update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Update listener."""

@@ -8,6 +8,7 @@
         "vscode": {
             "settings": {
                 "python.pythonPath": "/usr/local/bin/python",
+                "python.selectInterpreter": "/usr/local/bin/python",
                 "terminal.integrated.shell.linux": "/bin/bash"
               },
             "extensions": [
@@ -18,11 +19,17 @@
                 "ms-python.autopep8",
                 "ms-python.pylint",
                 "ms-vscode.remote-containers",
-                "charliermarsh.ruff"
+                "charliermarsh.ruff",
+                "yzhang.markdown-all-in-one",
+                "kevinrose.vsc-python-indent",
+                "keesschollaart.vscode-home-assistant",
+                "donjayamanne.githistory",
+                "mhutchie.git-graph"
             ]
         }
     },
     "postCreateCommand": "pip install -r requirements.txt",
+    "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
     "remoteUser": "vscode",
     "mounts": [
         "source=${localWorkspaceFolder}/config,target=/config,type=bind",

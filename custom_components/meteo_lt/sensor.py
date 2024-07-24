@@ -1,5 +1,7 @@
 """sensor.py"""
 
+from functools import cached_property
+from typing import Any
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.const import (
     UnitOfSpeed,
@@ -7,16 +9,27 @@ from homeassistant.const import (
     UnitOfPressure,
     UnitOfPrecipitationDepth,
 )
-from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN, LOGGER
 
+
 async def async_setup_entry(hass, entry, async_add_entities):
-    """Set up Meteo LT sensors based on a config entry."""
-    LOGGER.debug("Sensor setting up config entry %s", entry)
-    coordinator = hass.data[DOMAIN][entry.entry_id]["coordinator"]
-    nearest_place = hass.data[DOMAIN][entry.entry_id]["nearest_place"]
-    async_add_entities([MeteoLtCurrentConditionsSensor(coordinator, nearest_place, entry)])
+    """Set up Meteo.Lt sensor based on a config entry."""
+    LOGGER.debug(
+        "Sensor setting up input: hass.data - %s, config entry - %s",
+        hass.data[DOMAIN][entry.entry_id],
+        entry,
+    )
+    async_add_entities(
+        [
+            MeteoLtCurrentConditionsSensor(
+                hass.data[DOMAIN][entry.entry_id]["coordinator"],
+                hass.data[DOMAIN][entry.entry_id]["nearest_place"],
+                entry,
+            )
+        ]
+    )
+
 
 class MeteoLtCurrentConditionsSensor(CoordinatorEntity, SensorEntity):
     """Representation of a Meteo.Lt Current Conditions Sensor."""
@@ -24,26 +37,23 @@ class MeteoLtCurrentConditionsSensor(CoordinatorEntity, SensorEntity):
     def __init__(self, coordinator, nearest_place, config_entry):
         """Initialize the sensor."""
         super().__init__(coordinator)
-        self._name = f"Meteo.Lt {nearest_place.name} - Current Conditions"
-        self._state = None
+        self._attr_name = (
+            f"{config_entry.title} {nearest_place.name} - Current Conditions"
+        )
         self._attr_unique_id = f"{config_entry.entry_id}-sensor"
+        self._state = None
 
-    @property
-    def name(self):
-        """Return the name of the sensor."""
-        return self._name
-
-    @property
-    def state(self):
-        """Return the state of the sensor."""
+    @cached_property
+    def native_value(self):
+        """Return the value of the sensor."""
         return self.coordinator.data.current_conditions().temperature
 
     @property
-    def extra_state_attributes(self):
+    def extra_state_attributes(self) -> dict[str, Any] | None:
         """Return the state attributes."""
         current_conditions = self.coordinator.data.current_conditions()
         LOGGER.debug("Current conditions: %s", current_conditions)
-        
+
         return {
             "native_temperature": current_conditions.temperature,
             "native_apparent_temperature": current_conditions.apparent_temperature,
@@ -56,7 +66,7 @@ class MeteoLtCurrentConditionsSensor(CoordinatorEntity, SensorEntity):
             "native_precipitation": current_conditions.precipitation,
             "condition": current_conditions.condition,
             "native_temperature_unit": UnitOfTemperature.CELSIUS,
-            "native_wind_speed_unit":UnitOfSpeed.METERS_PER_SECOND,
+            "native_wind_speed_unit": UnitOfSpeed.METERS_PER_SECOND,
             "native_pressure_unit": UnitOfPressure.HPA,
-            "native_precipitation_unit": UnitOfPrecipitationDepth.MILLIMETERS,            
+            "native_precipitation_unit": UnitOfPrecipitationDepth.MILLIMETERS,
         }
