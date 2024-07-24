@@ -24,7 +24,8 @@
                 "kevinrose.vsc-python-indent",
                 "keesschollaart.vscode-home-assistant",
                 "donjayamanne.githistory",
-                "mhutchie.git-graph"
+                "mhutchie.git-graph",
+                "mikoz.black-py"
             ]
         }
     },

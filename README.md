@@ -7,6 +7,7 @@ Home Assistant integration for Meteo.Lt REST API
 [![GitHub Activity][commits-shield]][commits]
 [![License][license-shield]](LICENSE)
 ![Project Maintenance][maintenance-shield]
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 <a href="https://buymeacoffee.com/pdfdc52z8h" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 145px !important;" ></a>
 
