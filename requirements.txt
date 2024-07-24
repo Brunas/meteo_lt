@@ -3,3 +3,4 @@ homeassistant==2024.7.3
 pip>=24.1.1,<24.2
 black
 meteo_lt-pkg
+ruff
