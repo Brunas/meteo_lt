@@ -18,11 +18,11 @@ Platform | Description
 `weather` | A Home Assistant `weather` entity, with current data, and hourly forecast data. The first forecast record is treated as current data.
 `sensor` | A Home Assistant `sensor` entity, with all available data taken from the forecast first record.
 
-Minimum required version of Home Assistant is **2024.7.3** as this integration uses the new Weather entity forecast types and it does **not** create Forecast Attributes.
+Implementation has been done using Home Assistant version **2024.7.3**. Older versions could work too as long as the new Weather entity forecast types exist. Integration does **not** create Forecast Attributes.
 
 ## Installation through HACS (Recommended Method)
 
-This Integration is part of the default HACS store. Search for *Meteo.lt* under Integrations and install from there. After the installation of the files, you must restart Home Assistant, or else you will not be able to add WeatherFlow Forecast from the Integration Page.
+This Integration is part of the default HACS store. Search for *Meteo.lt* under Integrations and install from there. After the installation of the files, you must restart Home Assistant, or else you will not be able to add *Meteo.lt* from the Integration Page.
 
 If you are not familiar with HACS, or haven't installed it, I would recommend to [look through the HACS documentation](https://hacs.xyz/), before continuing. Even though you can install the Integration manually, I would recommend using HACS, as you would always be reminded when a new release is published.
 

@@ -10,5 +10,5 @@
     "issue_tracker": "https://github.com/Brunas/meteo_lt/issues",
     "loggers": ["meteo_lt"],
     "requirements": ["meteo_lt-pkg==0.1.4"],
-    "version": "0.1.5"
+    "version": "0.1.6"
 }
