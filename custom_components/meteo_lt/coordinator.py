@@ -3,7 +3,7 @@
 from datetime import timedelta
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
-from .const import LOGGER, UPDATE_MINUTES
+from .const import MANUFACTURER, LOGGER, UPDATE_MINUTES
 
 
 class MeteoLtCoordinator(DataUpdateCoordinator):
@@ -16,7 +16,7 @@ class MeteoLtCoordinator(DataUpdateCoordinator):
         super().__init__(
             hass,
             LOGGER,
-            name="Meteo LT",
+            name=MANUFACTURER,
             update_interval=timedelta(minutes=UPDATE_MINUTES),
         )
 

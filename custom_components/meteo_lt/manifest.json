@@ -1,14 +1,14 @@
 {
     "domain": "meteo_lt",
-    "name": "Meteo.LT",
-    "version": "0.1.4",
+    "name": "Meteo.Lt",
     "codeowners": ["@Brunas"],
     "config_flow": true,
+    "dependencies": [],
     "documentation": "https://github.com/Brunas/meteo_lt",
-    "iot_class": "cloud_polling",
     "integration_type": "service",
+    "iot_class": "cloud_polling",
+    "issue_tracker": "https://github.com/Brunas/meteo_lt/issues",
     "loggers": ["meteo_lt"],
     "requirements": ["meteo_lt-pkg==0.1.4"],
-    "dependencies": [],
-    "supported_platforms": ["weather"]
+    "version": "0.1.5"
 }
