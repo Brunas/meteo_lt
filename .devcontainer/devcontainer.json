@@ -1,45 +1,52 @@
 {
-    "name": "Home Assistant Dev Container",
-    "build": {
-        "dockerfile": "Dockerfile",
-        "context": ".."
-    },
-    "customizations": {
-        "vscode": {
-            "settings": {
-                "python.pythonPath": "/usr/local/bin/python",
-                "python.selectInterpreter": "/usr/local/bin/python",
-                "terminal.integrated.shell.linux": "/bin/bash"
-              },
-            "extensions": [
-                "ms-python.python",
-                "ms-python.vscode-pylance",
-                "ms-toolsai.jupyter",
-                "ms-python.black-formatter",
-                "ms-python.autopep8",
-                "ms-python.pylint",
-                "ms-vscode.remote-containers",
-                "charliermarsh.ruff",
-                "yzhang.markdown-all-in-one",
-                "kevinrose.vsc-python-indent",
-                "keesschollaart.vscode-home-assistant",
-                "donjayamanne.githistory",
-                "mhutchie.git-graph",
-                "mikoz.black-py"
-            ]
-        }
-    },
-    "postCreateCommand": "pip install -r requirements.txt",
-    "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
-    "remoteUser": "vscode",
-    "mounts": [
-        "source=${localWorkspaceFolder}/config,target=/config,type=bind",
-        "source=${localWorkspaceFolder}/custom_components,target=/config/custom_components,type=bind"
+  "name": "Home Assistant Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "postCreateCommand": "python -m pip install -r requirements.txt",
+	"runArgs": [
+		"-e",
+		"GIT_EDTIOR='code --wait'"
+	],
+  "customizations": {
+    "extensions": [
+      "ms-python.python",
+      "ms-python.vscode-pylance",
+      "ms-toolsai.jupyter",
+      "ms-python.black-formatter",
+      "ms-python.autopep8",
+      "ms-python.pylint",
+      "ms-vscode.remote-containers",
+      "charliermarsh.ruff",
+      "yzhang.markdown-all-in-one",
+      "kevinrose.vsc-python-indent",
+      "keesschollaart.vscode-home-assistant",
+      "donjayamanne.githistory",
+      "mhutchie.git-graph",
+      "mikoz.black-py"
     ],
-    "forwardPorts": [
-        8123
-    ],
-    "remoteEnv": {
-        "TZ": "Europe/Vilnius"
+    "settings": {
+      "terminal.integrated.shell.linux": "/bin/bash",
+      "python.pythonPath": "/usr/local/bin/python",
+      "python.linting.pylintEnabled": true,
+      "python.linting.enabled": true,
+      "python.formatting.provider": "black",
+      "editor.formatOnPaste": false,
+      "editor.formatOnSave": true,
+      "editor.formatOnType": true,
+      "files.trimTrailingWhitespace": true
     }
+  },
+  "remoteUser": "vscode",
+  "mounts": [
+      "source=${localWorkspaceFolder}/config,target=/config,type=bind",
+      "source=${localWorkspaceFolder}/custom_components,target=/config/custom_components,type=bind"
+  ],
+  "forwardPorts": [
+      8123
+  ],
+  "remoteEnv": {
+      "TZ": "Europe/Vilnius"
+  }    
 }

@@ -20,9 +20,11 @@ Platform | Description
 
 Implementation has been done using Home Assistant version **2024.7.3**. Older versions could work too as long as the new Weather entity forecast types exist. Integration does **not** create Forecast Attributes.
 
+>**NOTE:** At the moment of writing this - api.meteo.lt data renewal happens every 3 hours.
+
 ## Installation through HACS (Recommended Method)
 
-This Integration is part of the default HACS store. Search for *Meteo.lt* under Integrations and install from there. After the installation of the files, you must restart Home Assistant, or else you will not be able to add *Meteo.lt* from the Integration Page.
+This Integration is *not* yet a part of the default HACS store. Add it as *Custom Repository*, download it and *Meteo.lt* can be found under Integrations. Install it from there. After the installation of the files, you must restart Home Assistant, or else you will not be able to add *Meteo.lt* from the Integration Page.
 
 If you are not familiar with HACS, or haven't installed it, I would recommend to [look through the HACS documentation](https://hacs.xyz/), before continuing. Even though you can install the Integration manually, I would recommend using HACS, as you would always be reminded when a new release is published.
 
@@ -33,6 +35,7 @@ If you are not familiar with HACS, or haven't installed it, I would recommend to
 1. In the `custom_components` directory (folder) create a new folder called `meteo_lt`.
 1. Download _all_ the files from the `custom_components/meteo_lt/` directory (folder) in this repository.
 1. Place the files you downloaded in the new directory (folder) you created.
+1. Added `meteo_lt:` into your `configuration.yaml`
 1. Restart Home Assistant
 1. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "Meteo.Lt":
      - Enter latitude and longitude to use for the integration. Default values are Home Assistant Home location.

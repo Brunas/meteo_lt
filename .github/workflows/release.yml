@@ -2,8 +2,7 @@ name: "Release"
 
 on:
   release:
-    types:
-      - "published"
+    types: [published]
 
 permissions: {}
 
@@ -14,22 +13,28 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: "Checkout the repository"
-        uses: "actions/checkout@v4.1.7"
+      - name: Checkout the repository
+        uses: actions/checkout@v4.1.7
 
-      - name: "Adjust version number"
-        shell: "bash"
+      - name: Extract version from release
+        id: get_version
         run: |
-          yq -i -o json '.version="${{ github.event.release.tag_name }}"' \
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Adjust version number
+        shell: bash
+        run: |
+          yq -i -o json '.version="${{ env.VERSION }}"' \
             "${{ github.workspace }}/custom_components/meteo_lt/manifest.json"
 
-      - name: "ZIP the integration directory"
-        shell: "bash"
+      - name: ZIP the integration directory
+        shell: bash
         run: |
           cd "${{ github.workspace }}/custom_components/meteo_lt"
-          zip meteo_lt.zip -r ./
+          zip meteo_lt-${{ env.VERSION }}.zip -r ./
 
-      - name: "Upload the ZIP file to the release"
+      - name: Upload the ZIP file to the release
         uses: softprops/action-gh-release@v2.0.8
         with:
-          files: ${{ github.workspace }}/custom_components/meteo_lt/meteo_lt.zip
+          files: ${{ github.workspace }}/custom_components/meteo_lt/meteo_lt-${{ env.VERSION }}.zip
