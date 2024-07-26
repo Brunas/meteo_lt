@@ -24,7 +24,7 @@ Implementation has been done using Home Assistant version **2024.7.3**. Older ve
 
 ## Installation through HACS (Recommended Method)
 
-This Integration is *not* yet a part of the default HACS store. Add it as *Custom Repository*, download it and *Meteo.lt* can be found under Integrations. Install it from there. After the installation of the files, you must restart Home Assistant, or else you will not be able to add *Meteo.lt* from the Integration Page.
+This Integration is *not* yet a part of the default HACS store. Add it as *Custom Repository* following [this](https://hacs.xyz/docs/faq/custom_repositories/), download it and *Meteo.lt* can be found under Integrations. Install it from there. After the installation of the files, you must restart Home Assistant, or else you will not be able to add *Meteo.lt* from the Integration Page.
 
 If you are not familiar with HACS, or haven't installed it, I would recommend to [look through the HACS documentation](https://hacs.xyz/), before continuing. Even though you can install the Integration manually, I would recommend using HACS, as you would always be reminded when a new release is published.
 
