@@ -1,5 +1,7 @@
 """sensor.py"""
 
+# pylint: disable=too-many-arguments
+
 from typing import Dict, Any
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.const import (
