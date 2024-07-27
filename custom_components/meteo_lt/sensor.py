@@ -1,7 +1,6 @@
 """sensor.py"""
 
-from functools import cached_property
-from typing import Any
+from typing import Dict, Any
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.const import (
     UnitOfSpeed,
@@ -9,6 +8,7 @@ from homeassistant.const import (
     UnitOfPressure,
     UnitOfPrecipitationDepth,
 )
+from homeassistant.core import callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN, LOGGER
 
@@ -43,13 +43,13 @@ class MeteoLtCurrentConditionsSensor(CoordinatorEntity, SensorEntity):
         self._attr_unique_id = f"{config_entry.entry_id}-sensor"
         self._state = None
 
-    @cached_property
+    @property
     def native_value(self):
         """Return the value of the sensor."""
         return self.coordinator.data.current_conditions().temperature
 
     @property
-    def extra_state_attributes(self) -> dict[str, Any] | None:
+    def extra_state_attributes(self) -> Dict[str, Any] | None:
         """Return the state attributes."""
         current_conditions = self.coordinator.data.current_conditions()
         LOGGER.debug("Current conditions: %s", current_conditions)
@@ -69,4 +69,18 @@ class MeteoLtCurrentConditionsSensor(CoordinatorEntity, SensorEntity):
             "native_wind_speed_unit": UnitOfSpeed.METERS_PER_SECOND,
             "native_pressure_unit": UnitOfPressure.HPA,
             "native_precipitation_unit": UnitOfPrecipitationDepth.MILLIMETERS,
+            "last_updated": self.coordinator.last_updated,
         }
+
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        LOGGER.debug(
+            "Handling Meteo.Lt sensor coordinator update for entity %s", self.entity_id
+        )
+        self.async_write_ha_state()
+
+    async def async_update(self):
+        """Fetch new state data for the sensor."""
+        LOGGER.debug("Updating Meteo.Lt sensor entity %s", self.entity_id)
+        await self.coordinator.async_request_refresh()

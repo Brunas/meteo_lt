@@ -2,7 +2,6 @@
 
 # pylint: disable=unused-argument, abstract-method
 
-from functools import cached_property
 from typing import List, Dict, Union
 from homeassistant.components.weather import WeatherEntity, WeatherEntityFeature
 from homeassistant.config_entries import ConfigEntry
@@ -12,7 +11,7 @@ from homeassistant.const import (
     UnitOfPressure,
     UnitOfPrecipitationDepth,
 )
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceEntryType
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN, MANUFACTURER, LOGGER
@@ -47,83 +46,79 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
         super().__init__(coordinator)
         self._attr_name = f"{config_entry.title} {nearest_place.name}"
         self._attr_unique_id = config_entry.entry_id
-
-    @property
-    def device_info(self):
-        """device info"""
-        return {
+        self._attr_device_info = {
             "entry_type": DeviceEntryType.SERVICE,
             "identifiers": {(DOMAIN, self._attr_unique_id)},
             "name": self._attr_name,
             "manufacturer": MANUFACTURER,
         }
 
-    @cached_property
+    @property
     def native_temperature(self):
         """Native temperature"""
         return self.coordinator.data.forecast_timestamps[0].temperature
 
-    @cached_property
+    @property
     def native_temperature_unit(self):
         """Native temperature unit"""
         return UnitOfTemperature.CELSIUS
 
-    @cached_property
+    @property
     def humidity(self):
         """Humidity"""
         return self.coordinator.data.forecast_timestamps[0].humidity
 
-    @cached_property
+    @property
     def native_wind_speed(self):
         """Native wind speed"""
         return self.coordinator.data.forecast_timestamps[0].wind_speed
 
-    @cached_property
+    @property
     def native_wind_speed_unit(self):
         """Native wind speed unit"""
         return UnitOfSpeed.METERS_PER_SECOND
 
-    @cached_property
+    @property
     def wind_bearing(self):
         """Native wind bearing"""
         return self.coordinator.data.forecast_timestamps[0].wind_bearing
 
-    @cached_property
+    @property
     def native_pressure(self):
         """Native pressure"""
         return self.coordinator.data.forecast_timestamps[0].pressure
 
-    @cached_property
+    @property
     def native_pressure_unit(self):
         """Native pressure unit"""
         return UnitOfPressure.HPA
 
-    @cached_property
+    @property
     def native_precipitation(self):
         """Native precipitation"""
         return self.coordinator.data.forecast_timestamps[0].precipitation
 
-    @cached_property
+    @property
     def native_precipitation_unit(self):
         """Native precipitation unit"""
         return UnitOfPrecipitationDepth.MILLIMETERS
 
-    @cached_property
+    @property
     def condition(self):
         """Condition"""
         return self.coordinator.data.forecast_timestamps[0].condition
 
-    @cached_property
+    @property
     def cloud_coverage(self):
         """Cloud coverage"""
         return self.coordinator.data.forecast_timestamps[0].cloud_coverage
 
-    @cached_property
+    @property
     def native_apparent_temperature(self):
         """Native apparent temperature"""
         return self.coordinator.data.forecast_timestamps[0].apparent_temperature
 
-    @cached_property
+    @property
     def native_wind_gust_speed(self):
         """Native wind gust speed"""
         return self.coordinator.data.forecast_timestamps[0].wind_gust_speed
@@ -132,6 +127,13 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
     def supported_features(self):
         """Return the list of supported features."""
         return WeatherEntityFeature.FORECAST_HOURLY
+
+    @property
+    def extra_state_attributes(self):
+        """Return extra attributes."""
+        return {
+            "last_updated": self.coordinator.last_updated,
+        }
 
     async def async_forecast_hourly(
         self,
@@ -163,7 +165,15 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
         LOGGER.debug("Hourly_forecast created: %s", hourly_forecast)
         return hourly_forecast
 
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        LOGGER.debug(
+            "Handling Meteo.Lt weather coordinator update for entity %s", self.entity_id
+        )
+        self.async_write_ha_state()
+
     async def async_update(self):
         """Refreshing coordinator"""
-        LOGGER.debug("Updating MeteoLtWeather entity.")
+        LOGGER.debug("Updating Meteo.Lt weather entity %s", self.entity_id)
         await self.coordinator.async_request_refresh()
