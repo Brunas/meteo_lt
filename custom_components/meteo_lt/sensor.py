@@ -1,84 +1,179 @@
-"""sensor.py"""
+"""weather.py"""
 
-from functools import property
-from typing import Any
-from homeassistant.components.sensor import SensorEntity
+# pylint: disable=unused-argument
+
+from typing import List, Dict, Union
+from homeassistant.components.weather import WeatherEntity, WeatherEntityFeature
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
     UnitOfPressure,
     UnitOfPrecipitationDepth,
 )
-from homeassistant.core import callback
+from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers.device_registry import DeviceEntryType
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from .const import DOMAIN, LOGGER
+from .const import DOMAIN, MANUFACTURER, LOGGER
 
 
-async def async_setup_entry(hass, entry, async_add_entities):
-    """Set up Meteo.Lt sensor based on a config entry."""
+async def async_setup_entry(
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities
+):
+    """Set up Meteo.Lt weather based on a config entry."""
     LOGGER.debug(
-        "Sensor setting up input: hass.data - %s, config entry - %s",
+        "Weather setting up input: hass.data - %s, config entry - %s",
         hass.data[DOMAIN][entry.entry_id],
         entry,
     )
     async_add_entities(
         [
-            MeteoLtCurrentConditionsSensor(
+            MeteoLtWeather(
                 hass.data[DOMAIN][entry.entry_id]["coordinator"],
                 hass.data[DOMAIN][entry.entry_id]["nearest_place"],
                 entry,
             )
-        ]
+        ],
+        True,
     )
 
 
-class MeteoLtCurrentConditionsSensor(CoordinatorEntity, SensorEntity):
-    """Representation of a Meteo.Lt Current Conditions Sensor."""
+class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
+    """Meteo.lt WeatherEntity implementation"""
 
     def __init__(self, coordinator, nearest_place, config_entry):
-        """Initialize the sensor."""
+        """__init__"""
         super().__init__(coordinator)
-        self._attr_name = (
-            f"{config_entry.title} {nearest_place.name} - Current Conditions"
-        )
-        self._attr_unique_id = f"{config_entry.entry_id}-sensor"
-        self._state = None
-
-    @property
-    def native_value(self):
-        """Return the value of the sensor."""
-        return self.coordinator.data.current_conditions().temperature
-
-    @property
-    def extra_state_attributes(self) -> dict[str, Any] | None:
-        """Return the state attributes."""
-        current_conditions = self.coordinator.data.current_conditions()
-        LOGGER.debug("Current conditions: %s", current_conditions)
-
-        return {
-            "native_temperature": current_conditions.temperature,
-            "native_apparent_temperature": current_conditions.apparent_temperature,
-            "native_wind_speed": current_conditions.wind_speed,
-            "native_wind_gust_speed": current_conditions.wind_gust_speed,
-            "wind_bearing": current_conditions.wind_bearing,
-            "cloud_coverage": current_conditions.cloud_coverage,
-            "native_pressure": current_conditions.pressure,
-            "humidity": current_conditions.humidity,
-            "native_precipitation": current_conditions.precipitation,
-            "condition": current_conditions.condition,
-            "native_temperature_unit": UnitOfTemperature.CELSIUS,
-            "native_wind_speed_unit": UnitOfSpeed.METERS_PER_SECOND,
-            "native_pressure_unit": UnitOfPressure.HPA,
-            "native_precipitation_unit": UnitOfPrecipitationDepth.MILLIMETERS,
+        self._attr_name = f"{config_entry.title} {nearest_place.name}"
+        self._attr_unique_id = config_entry.entry_id
+        self._attr_device_info = {
+            "entry_type": DeviceEntryType.SERVICE,
+            "identifiers": {(DOMAIN, self._attr_unique_id)},
+            "name": self._attr_name,
+            "manufacturer": MANUFACTURER,
         }
+
+    @property
+    def native_temperature(self):
+        """Native temperature"""
+        return self.coordinator.data.forecast_timestamps[0].temperature
+
+    @property
+    def native_temperature_unit(self):
+        """Native temperature unit"""
+        return UnitOfTemperature.CELSIUS
+
+    @property
+    def humidity(self):
+        """Humidity"""
+        return self.coordinator.data.forecast_timestamps[0].humidity
+
+    @property
+    def native_wind_speed(self):
+        """Native wind speed"""
+        return self.coordinator.data.forecast_timestamps[0].wind_speed
+
+    @property
+    def native_wind_speed_unit(self):
+        """Native wind speed unit"""
+        return UnitOfSpeed.METERS_PER_SECOND
+
+    @property
+    def wind_bearing(self):
+        """Native wind bearing"""
+        return self.coordinator.data.forecast_timestamps[0].wind_bearing
+
+    @property
+    def native_pressure(self):
+        """Native pressure"""
+        return self.coordinator.data.forecast_timestamps[0].pressure
+
+    @property
+    def native_pressure_unit(self):
+        """Native pressure unit"""
+        return UnitOfPressure.HPA
+
+    @property
+    def native_precipitation(self):
+        """Native precipitation"""
+        return self.coordinator.data.forecast_timestamps[0].precipitation
+
+    @property
+    def native_precipitation_unit(self):
+        """Native precipitation unit"""
+        return UnitOfPrecipitationDepth.MILLIMETERS
+
+    @property
+    def condition(self):
+        """Condition"""
+        return self.coordinator.data.forecast_timestamps[0].condition
+
+    @property
+    def cloud_coverage(self):
+        """Cloud coverage"""
+        return self.coordinator.data.forecast_timestamps[0].cloud_coverage
+
+    @property
+    def native_apparent_temperature(self):
+        """Native apparent temperature"""
+        return self.coordinator.data.forecast_timestamps[0].apparent_temperature
+
+    @property
+    def native_wind_gust_speed(self):
+        """Native wind gust speed"""
+        return self.coordinator.data.forecast_timestamps[0].wind_gust_speed
+
+    @property
+    def supported_features(self):
+        """Return the list of supported features."""
+        return WeatherEntityFeature.FORECAST_HOURLY
+
+    @property
+    def extra_state_attributes(self):
+        """Return extra attributes."""
+        return {
+            "last_updated": self.coordinator.last_updated,
+        }
+
+    async def async_forecast_hourly(
+        self,
+    ) -> Union[List[Dict[str, Union[str, float]]], None]:
+        """Return the hourly forecast in native units."""
+        if not self.supported_features & WeatherEntityFeature.FORECAST_HOURLY:
+            return None
+
+        hourly_forecast = [
+            {
+                "datetime": entry.datetime,
+                "native_temperature": entry.temperature,
+                "native_apparent_temperature": entry.apparent_temperature,
+                "native_wind_speed": entry.wind_speed,
+                "native_wind_gust_speed": entry.wind_gust_speed,
+                "wind_bearing": entry.wind_bearing,
+                "cloud_coverage": entry.cloud_coverage,
+                "native_pressure": entry.pressure,
+                "humidity": entry.humidity,
+                "native_precipitation": entry.precipitation,
+                "condition": entry.condition,
+                "native_temperature_unit": UnitOfTemperature.CELSIUS,
+                "native_wind_speed_unit": UnitOfSpeed.METERS_PER_SECOND,
+                "native_pressure_unit": UnitOfPressure.HPA,
+                "native_precipitation_unit": UnitOfPrecipitationDepth.MILLIMETERS,
+            }
+            for entry in self.coordinator.data.forecast_timestamps
+        ]
+        LOGGER.debug("Hourly_forecast created: %s", hourly_forecast)
+        return hourly_forecast
 
     @callback
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
-        LOGGER.debug(f"Handling Meteo.Lt sensor coordinator update for entity {self.entity_id}")
+        LOGGER.debug(
+            "Handling Meteo.Lt weather coordinator update for entity %s", self.entity_id
+        )
         self.async_write_ha_state()
 
     async def async_update(self):
-        """Fetch new state data for the sensor."""
-        LOGGER.debug(f"Updating Meteo.Lt sensor entity {self.entity_id}")
+        """Refreshing coordinator"""
+        LOGGER.debug("Updating Meteo.Lt weather entity %s", self.entity_id)
         await self.coordinator.async_request_refresh()

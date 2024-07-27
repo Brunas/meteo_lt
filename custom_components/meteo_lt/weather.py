@@ -2,7 +2,6 @@
 
 # pylint: disable=unused-argument, abstract-method
 
-from functools import property
 from typing import List, Dict, Union
 from homeassistant.components.weather import WeatherEntity, WeatherEntityFeature
 from homeassistant.config_entries import ConfigEntry
@@ -129,6 +128,13 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
         """Return the list of supported features."""
         return WeatherEntityFeature.FORECAST_HOURLY
 
+    @property
+    def extra_state_attributes(self):
+        """Return extra attributes."""
+        return {
+            "last_updated": self.coordinator.last_updated,
+        }
+
     async def async_forecast_hourly(
         self,
     ) -> Union[List[Dict[str, Union[str, float]]], None]:
@@ -163,11 +169,11 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
         LOGGER.debug(
-            f"Handling Meteo.Lt weather coordinator update for entity {self.entity_id}"
+            "Handling Meteo.Lt weather coordinator update for entity %s", self.entity_id
         )
         self.async_write_ha_state()
 
     async def async_update(self):
         """Refreshing coordinator"""
-        LOGGER.debug(f"Updating Meteo.Lt weather entity {self.entity_id}")
+        LOGGER.debug("Updating Meteo.Lt weather entity %s", self.entity_id)
         await self.coordinator.async_request_refresh()

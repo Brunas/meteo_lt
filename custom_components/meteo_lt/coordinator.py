@@ -1,7 +1,6 @@
 """coordinator.py"""
 
-from builtins import super
-from datetime import timedelta
+from datetime import datetime, timedelta
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import MANUFACTURER, LOGGER, UPDATE_MINUTES
@@ -14,6 +13,7 @@ class MeteoLtCoordinator(DataUpdateCoordinator):
         """Initialize."""
         self.api = api
         self.nearest_place = nearest_place
+        self.last_updated = None
         super().__init__(
             hass,
             LOGGER,
@@ -26,4 +26,5 @@ class MeteoLtCoordinator(DataUpdateCoordinator):
         """Fetch data from API."""
         forecast = await self.api.get_forecast(self.nearest_place.code)
         LOGGER.debug("Forecast retrieved: %s", forecast)
+        self.last_updated = datetime.now().isoformat()
         return forecast
