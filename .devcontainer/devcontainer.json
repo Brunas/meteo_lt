@@ -35,7 +35,10 @@
     }
   },
   "mounts": [
-      "source=${localWorkspaceFolder}/custom_components,target=/root/.homeassistant/custom_components,type=bind"
+    "source=${env:HOME}/.ssh,target=/root/.ssh,type=bind",
+    "source=${env:HOME}/.ssh/known_hosts,target=/root/.ssh/known_hosts,type=bind",
+    "source=${env:HOME}/.gitconfig,target=/root/.gitconfig,type=bind",
+    "source=${localWorkspaceFolder}/custom_components,target=/root/.homeassistant/custom_components,type=bind"
   ],
   "forwardPorts": [
     8123
