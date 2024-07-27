@@ -1,5 +1,6 @@
 """coordinator.py"""
 
+from builtins import super
 from datetime import timedelta
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -18,6 +19,7 @@ class MeteoLtCoordinator(DataUpdateCoordinator):
             LOGGER,
             name=MANUFACTURER,
             update_interval=timedelta(minutes=UPDATE_MINUTES),
+            always_update=True,
         )
 
     async def _async_update_data(self):
