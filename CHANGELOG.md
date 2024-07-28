@@ -1,3 +1,23 @@
+## Release 0.2.1
+
+Date: `2024-07-28`
+
+### Changes
+
+- Bumped meteo_lt-pkg to 0.2.1 to change UTC datetime format from "Z" to "+00:00"
+- Devcontainer fixes and improvements
+- Readme update
+
+## Release 0.2.0
+
+Date: `2024-07-27`
+
+### Changes
+
+- Separate sensors for every current conditions attribute
+- Added last_updated to all entities to see coordinator working
+- Trying to fix updating
+
 ## Release 0.1.8
 
 Date: `2024-07-26`
