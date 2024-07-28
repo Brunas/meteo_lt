@@ -133,6 +133,7 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
         """Return extra attributes."""
         return {
             "last_updated": self.coordinator.last_updated,
+            "forecast_created": self.coordinator.data.forecast_created,
         }
 
     async def async_forecast_hourly(
