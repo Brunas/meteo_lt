@@ -59,13 +59,14 @@ class MeteoLtBaseSensor(CoordinatorEntity, SensorEntity):
     @property
     def native_value(self):
         """Return the value of the sensor."""
-        return getattr(self.coordinator.data.current_conditions(), self._attribute)
+        return getattr(self.coordinator.data.current_conditions, self._attribute)
 
     @property
     def extra_state_attributes(self) -> Dict[str, Any] | None:
         """Return the state attributes."""
         return {
             "last_updated": self.coordinator.last_updated,
+            "forecast_created": self.coordinator.data.forecast_created,
         }
 
     @callback
@@ -92,7 +93,7 @@ class MeteoLtCurrentConditionsSensor(MeteoLtBaseSensor):
     @property
     def extra_state_attributes(self) -> Dict[str, Any] | None:
         """Return the state attributes."""
-        current_conditions = self.coordinator.data.current_conditions()
+        current_conditions = self.coordinator.data.current_conditions
         LOGGER.debug("Current conditions: %s", current_conditions)
 
         base_attributes = super().extra_state_attributes or {}

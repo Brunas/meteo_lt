@@ -1,6 +1,6 @@
 """coordinator.py"""
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import MANUFACTURER, LOGGER, UPDATE_MINUTES
@@ -26,5 +26,5 @@ class MeteoLtCoordinator(DataUpdateCoordinator):
         """Fetch data from API."""
         forecast = await self.api.get_forecast(self.nearest_place.code)
         LOGGER.debug("Forecast retrieved: %s", forecast)
-        self.last_updated = datetime.now().isoformat()
+        self.last_updated = datetime.now().astimezone(timezone.utc).isoformat()
         return forecast

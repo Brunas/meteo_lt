@@ -1,3 +1,14 @@
+## Release 0.2.2
+
+Date: `2024-07-28`
+
+### Changes
+
+- Bumped meteo_lt-pkg to 0.2.2
+- Removing of past hours forecasts
+- Current conditions is the current hour record
+- Forecast creation time stamp in attributes
+
 ## Release 0.2.1
 
 Date: `2024-07-28`
