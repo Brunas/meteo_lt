@@ -1,47 +1,51 @@
 {
   "name": "Home Assistant Dev Container",
   "image": "homeassistant/home-assistant:stable",
-	"runArgs": [
-		"-e",
-		"GIT_EDTIOR='code --wait'"
-	],
+  "runArgs": [
+    "-e",
+    "GIT_EDTIOR='code --wait'"
+  ],
   "customizations": {
-    "extensions": [
-      "ms-python.python",
-      "ms-python.vscode-pylance",
-      "ms-toolsai.jupyter",
-      "ms-python.black-formatter",
-      "ms-python.autopep8",
-      "ms-python.pylint",
-      "ms-vscode.remote-containers",
-      "charliermarsh.ruff",
-      "yzhang.markdown-all-in-one",
-      "kevinrose.vsc-python-indent",
-      "keesschollaart.vscode-home-assistant",
-      "donjayamanne.githistory",
-      "mhutchie.git-graph",
-      "mikoz.black-py"
-    ],
-    "settings": {
-      "terminal.integrated.shell.linux": "/bin/bash",
-      "python.pythonPath": "/usr/local/bin/python",
-      "python.linting.pylintEnabled": true,
-      "python.linting.enabled": true,
-      "python.formatting.provider": "black",
-      "editor.formatOnPaste": false,
-      "editor.formatOnSave": true,
-      "editor.formatOnType": true,
-      "files.trimTrailingWhitespace": true
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "ms-python.black-formatter",
+        "ms-python.autopep8",
+        "ms-python.pylint",
+        "ms-vscode.remote-containers",
+        "charliermarsh.ruff",
+        "yzhang.markdown-all-in-one",
+        "kevinrose.vsc-python-indent",
+        "keesschollaart.vscode-home-assistant",
+        "donjayamanne.githistory",
+        "mhutchie.git-graph",
+        "mikoz.black-py"
+      ],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "python.pythonPath": "/usr/local/bin/python",
+        "python.formatting.provider": "black",
+        "editor.formatOnPaste": false,
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "files.trimTrailingWhitespace": true
+      }
     }
   },
   "mounts": [
-      "source=${localWorkspaceFolder}/custom_components,target=/root/.homeassistant/custom_components,type=bind"
+    "source=${env:HOME}/.ssh,target=/root/.ssh,type=bind,readonly",
+    "source=${env:HOME}/.ssh/known_hosts,target=/root/.ssh/known_hosts,type=bind,readonly",
+    "source=${env:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,readonly",
+    "source=${localWorkspaceFolder}/custom_components,target=/root/.homeassistant/custom_components,type=bind"
   ],
   "forwardPorts": [
     8123
   ],
   "remoteEnv": {
-      "TZ": "Europe/Vilnius"
+    "TZ": "Europe/Vilnius"
   },
-  "postCreateCommand": "pip install -r requirements.txt && hass"
+  "postCreateCommand": "pip install -r requirements.txt && hass",
+  "postStartCommand": "export PYTHONPATH=$(python -c 'import site; print(site.getsitepackages()[0])')"
 }
