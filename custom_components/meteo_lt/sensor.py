@@ -3,7 +3,11 @@
 # pylint: disable=too-many-arguments
 
 from typing import Dict, Any
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import (
+    SensorDeviceClass,
+    SensorEntity,
+    SensorStateClass,
+)
 from homeassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
@@ -46,15 +50,26 @@ async def async_setup_entry(hass, entry, async_add_entities):
 class MeteoLtBaseSensor(CoordinatorEntity, SensorEntity):
     """Base class for all Meteo.Lt sensors."""
 
-    def __init__(self, coordinator, nearest_place, config_entry, attribute, unit=None):
+    def __init__(
+        self,
+        coordinator,
+        nearest_place,
+        config_entry,
+        attribute,
+        device_class=None,
+        state_class=None,
+        unit=None,
+    ):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._attr_name = f"{config_entry.title} {nearest_place.name} - {attribute}"
         self._attr_unique_id = f"{config_entry.entry_id}-{attribute}".replace(
             " ", "_"
         ).lower()
-        self._attr_unit_of_measurement = unit
         self._attribute = attribute
+        self._attr_device_class = device_class
+        self._attr_state_class = state_class
+        self._attr_unit_of_measurement = unit
 
     @property
     def native_value(self):
@@ -125,6 +140,8 @@ class MeteoLtTemperatureSensor(MeteoLtBaseSensor):
             nearest_place,
             config_entry,
             "temperature",
+            SensorDeviceClass.TEMPERATURE,
+            SensorStateClass.MEASUREMENT,
             UnitOfTemperature.CELSIUS,
         )
 
@@ -138,6 +155,8 @@ class MeteoLtApparentTemperatureSensor(MeteoLtBaseSensor):
             nearest_place,
             config_entry,
             "apparent_temperature",
+            SensorDeviceClass.TEMPERATURE,
+            SensorStateClass.MEASUREMENT,
             UnitOfTemperature.CELSIUS,
         )
 
@@ -151,6 +170,8 @@ class MeteoLtWindSpeedSensor(MeteoLtBaseSensor):
             nearest_place,
             config_entry,
             "wind_speed",
+            SensorDeviceClass.WIND_SPEED,
+            SensorStateClass.MEASUREMENT,
             UnitOfSpeed.METERS_PER_SECOND,
         )
 
@@ -164,6 +185,8 @@ class MeteoLtWindGustSpeedSensor(MeteoLtBaseSensor):
             nearest_place,
             config_entry,
             "wind_gust_speed",
+            SensorDeviceClass.WIND_SPEED,
+            SensorStateClass.MEASUREMENT,
             UnitOfSpeed.METERS_PER_SECOND,
         )
 
@@ -172,14 +195,29 @@ class MeteoLtWindBearingSensor(MeteoLtBaseSensor):
     """MeteoLtWindBearingSensor"""
 
     def __init__(self, coordinator, nearest_place, config_entry):
-        super().__init__(coordinator, nearest_place, config_entry, "wind_bearing")
+        super().__init__(
+            coordinator,
+            nearest_place,
+            config_entry,
+            "wind_bearing",
+            None,  # No degrees or anything specific to wind direction
+            SensorStateClass.MEASUREMENT,
+        )
 
 
 class MeteoLtCloudCoverageSensor(MeteoLtBaseSensor):
     """MeteoLtCloudCoverageSensor"""
 
     def __init__(self, coordinator, nearest_place, config_entry):
-        super().__init__(coordinator, nearest_place, config_entry, "cloud_coverage")
+        super().__init__(
+            coordinator,
+            nearest_place,
+            config_entry,
+            "cloud_coverage",
+            None,  # No cloud coverage specific device class
+            SensorStateClass.MEASUREMENT,
+            "%",
+        )
 
 
 class MeteoLtPressureSensor(MeteoLtBaseSensor):
@@ -187,7 +225,13 @@ class MeteoLtPressureSensor(MeteoLtBaseSensor):
 
     def __init__(self, coordinator, nearest_place, config_entry):
         super().__init__(
-            coordinator, nearest_place, config_entry, "pressure", UnitOfPressure.HPA
+            coordinator,
+            nearest_place,
+            config_entry,
+            "pressure",
+            SensorDeviceClass.ATMOSPHERIC_PRESSURE,
+            SensorStateClass.MEASUREMENT,
+            UnitOfPressure.HPA,
         )
 
 
@@ -195,7 +239,15 @@ class MeteoLtHumiditySensor(MeteoLtBaseSensor):
     """MeteoLtHumiditySensor"""
 
     def __init__(self, coordinator, nearest_place, config_entry):
-        super().__init__(coordinator, nearest_place, config_entry, "humidity")
+        super().__init__(
+            coordinator,
+            nearest_place,
+            config_entry,
+            "humidity",
+            SensorDeviceClass.HUMIDITY,
+            SensorStateClass.MEASUREMENT,
+            "%",
+        )
 
 
 class MeteoLtPrecipitationSensor(MeteoLtBaseSensor):
@@ -207,6 +259,8 @@ class MeteoLtPrecipitationSensor(MeteoLtBaseSensor):
             nearest_place,
             config_entry,
             "precipitation",
+            SensorDeviceClass.PRECIPITATION,
+            SensorStateClass.MEASUREMENT,
             UnitOfPrecipitationDepth.MILLIMETERS,
         )
 
@@ -215,4 +269,5 @@ class MeteoLtConditionSensor(MeteoLtBaseSensor):
     """MeteoLtConditionSensor"""
 
     def __init__(self, coordinator, nearest_place, config_entry):
+        # Text representation of conditions
         super().__init__(coordinator, nearest_place, config_entry, "condition")
