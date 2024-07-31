@@ -1,3 +1,12 @@
+## Release 0.2.3
+
+Date: `2024-07-31`
+
+### Changes
+
+- Dependabot bumps
+- Tweaked sensor device and state classes and units of measurement
+
 ## Release 0.2.2
 
 Date: `2024-07-28`
