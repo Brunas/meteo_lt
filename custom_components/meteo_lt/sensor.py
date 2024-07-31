@@ -9,6 +9,8 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.const import (
+    DEGREE,
+    PERCENTAGE,
     UnitOfSpeed,
     UnitOfTemperature,
     UnitOfPressure,
@@ -69,7 +71,7 @@ class MeteoLtBaseSensor(CoordinatorEntity, SensorEntity):
         self._attribute = attribute
         self._attr_device_class = device_class
         self._attr_state_class = state_class
-        self._attr_unit_of_measurement = unit
+        self._attr_native_unit_of_measurement = unit
 
     @property
     def native_value(self):
@@ -102,7 +104,15 @@ class MeteoLtCurrentConditionsSensor(MeteoLtBaseSensor):
     """Representation of a Meteo.Lt Current Conditions Sensor."""
 
     def __init__(self, coordinator, nearest_place, config_entry):
-        super().__init__(coordinator, nearest_place, config_entry, "Current Conditions")
+        super().__init__(
+            coordinator,
+            nearest_place,
+            config_entry,
+            "Current Conditions",
+            None,
+            None,
+            UnitOfTemperature.CELSIUS,
+        )
         self._attribute = "temperature"
 
     @property
@@ -202,6 +212,7 @@ class MeteoLtWindBearingSensor(MeteoLtBaseSensor):
             "wind_bearing",
             None,  # No degrees or anything specific to wind direction
             SensorStateClass.MEASUREMENT,
+            DEGREE,
         )
 
 
@@ -216,7 +227,7 @@ class MeteoLtCloudCoverageSensor(MeteoLtBaseSensor):
             "cloud_coverage",
             None,  # No cloud coverage specific device class
             SensorStateClass.MEASUREMENT,
-            "%",
+            PERCENTAGE,
         )
 
 
@@ -246,7 +257,7 @@ class MeteoLtHumiditySensor(MeteoLtBaseSensor):
             "humidity",
             SensorDeviceClass.HUMIDITY,
             SensorStateClass.MEASUREMENT,
-            "%",
+            PERCENTAGE,
         )
 
 
