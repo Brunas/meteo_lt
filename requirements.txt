@@ -2,5 +2,5 @@ colorlog==6.8.2
 homeassistant==2024.7.3
 pip>=24.1.1,<24.4
 black
-meteo_lt-pkg
+meteo_lt-pkg==0.2.4
 ruff
