@@ -1,3 +1,42 @@
+## Release 0.2.6
+
+Date: `2025-05-10`
+
+### Changes
+
+- `Forecast` object usage
+- `async_added_to_hass` callback for sensors/weather entity
+- Readme and changelog document update
+- Usual version bumps
+
+## Release 0.2.5
+
+Date: `2025-03-08`
+
+### Changes
+
+- Country in `hacs.json`
+- Usual version bumps
+
+## Release 0.2.4
+
+Date: `2025-01-14`
+
+### Changes
+
+- Daily `dependabot`
+- `meteo_lt-pkg` specific version in `requirements.txt`
+- Usual version bumps
+
+## Release 0.2.3
+
+Date: `2024-07-31`
+
+### Changes
+
+- Version bumps
+- Attributes for temp and humidity entities
+
 ## Release 0.2.2
 
 Date: `2024-07-28`

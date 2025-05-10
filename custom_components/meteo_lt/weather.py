@@ -1,9 +1,13 @@
 """weather.py"""
 
-# pylint: disable=unused-argument, abstract-method
+# pylint: disable=unused-argument, abstract-method, too-many-arguments
 
 from typing import List, Dict, Union
-from homeassistant.components.weather import WeatherEntity, WeatherEntityFeature
+from homeassistant.components.weather import (
+    Forecast,
+    SingleCoordinatorWeatherEntity,
+    WeatherEntityFeature,
+)
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     UnitOfSpeed,
@@ -13,8 +17,8 @@ from homeassistant.const import (
 )
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceEntryType
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN, MANUFACTURER, LOGGER
+from .coordinator import MeteoLtCoordinator
 
 
 async def async_setup_entry(
@@ -38,7 +42,7 @@ async def async_setup_entry(
     )
 
 
-class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
+class MeteoLtWeather(SingleCoordinatorWeatherEntity[MeteoLtCoordinator]):
     """Meteo.lt WeatherEntity implementation"""
 
     def __init__(self, coordinator, nearest_place, config_entry):
@@ -136,31 +140,26 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
             "forecast_created": self.coordinator.data.forecast_created,
         }
 
-    async def async_forecast_hourly(
-        self,
-    ) -> Union[List[Dict[str, Union[str, float]]], None]:
+    @callback
+    def _async_forecast_hourly(self) -> List[Forecast] | None:
         """Return the hourly forecast in native units."""
         if not self.supported_features & WeatherEntityFeature.FORECAST_HOURLY:
             return None
 
         hourly_forecast = [
-            {
-                "datetime": entry.datetime,
-                "native_temperature": entry.temperature,
-                "native_apparent_temperature": entry.apparent_temperature,
-                "native_wind_speed": entry.wind_speed,
-                "native_wind_gust_speed": entry.wind_gust_speed,
-                "wind_bearing": entry.wind_bearing,
-                "cloud_coverage": entry.cloud_coverage,
-                "native_pressure": entry.pressure,
-                "humidity": entry.humidity,
-                "native_precipitation": entry.precipitation,
-                "condition": entry.condition,
-                "native_temperature_unit": UnitOfTemperature.CELSIUS,
-                "native_wind_speed_unit": UnitOfSpeed.METERS_PER_SECOND,
-                "native_pressure_unit": UnitOfPressure.HPA,
-                "native_precipitation_unit": UnitOfPrecipitationDepth.MILLIMETERS,
-            }
+            Forecast(
+                datetime=entry.datetime,
+                native_temperature=entry.temperature,
+                native_apparent_temperature=entry.apparent_temperature,
+                native_wind_speed=entry.wind_speed,
+                native_wind_gust_speed=entry.wind_gust_speed,
+                wind_bearing=entry.wind_bearing,
+                cloud_coverage=entry.cloud_coverage,
+                native_pressure=entry.pressure,
+                humidity=entry.humidity,
+                native_precipitation=entry.precipitation,
+                condition=entry.condition,
+            )
             for entry in self.coordinator.data.forecast_timestamps
         ]
         LOGGER.debug("Hourly_forecast created: %s", hourly_forecast)
@@ -178,3 +177,10 @@ class MeteoLtWeather(CoordinatorEntity, WeatherEntity):
         """Refreshing coordinator"""
         LOGGER.debug("Updating Meteo.Lt weather entity %s", self.entity_id)
         await self.coordinator.async_request_refresh()
+
+    async def async_added_to_hass(self):
+        """When entity is added to hass."""
+        await super().async_added_to_hass()
+        self.async_on_remove(
+            self.coordinator.async_add_listener(self._handle_coordinator_update)
+        )
