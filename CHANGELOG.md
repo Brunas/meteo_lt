@@ -34,8 +34,8 @@ Date: `2024-07-31`
 
 ### Changes
 
-- Version bumps
-- Attributes for temp and humidity entities
+- Dependabot bumps
+- Tweaked sensor device and state classes and units of measurement
 
 ## Release 0.2.2
 
