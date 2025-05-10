@@ -2,7 +2,7 @@
 
 # pylint: disable=unused-argument, abstract-method, too-many-ancestors
 
-from typing import List, Dict, Union
+from typing import List
 from homeassistant.components.weather import (
     Forecast,
     SingleCoordinatorWeatherEntity,
