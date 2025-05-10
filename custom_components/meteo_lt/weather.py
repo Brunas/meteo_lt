@@ -1,6 +1,6 @@
 """weather.py"""
 
-# pylint: disable=unused-argument, abstract-method, too-many-arguments
+# pylint: disable=unused-argument, abstract-method, too-many-ancestors
 
 from typing import List, Dict, Union
 from homeassistant.components.weather import (
