@@ -9,24 +9,24 @@ Home Assistant integration for Meteo.Lt REST API
 ![Project Maintenance][maintenance-shield]
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-<a href="https://buymeacoffee.com/pdfdc52z8h" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 145px !important;" ></a>
+<a href="https://buymeacoffee.com/pdfdc52z8h" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 25px !important;" ></a>
 
 This integration adds support for retrieving the Forecast data from [Api.Meteo.Lt](https://api.meteo.lt) and setting up following platforms in Home Assistant:
 
-Platform | Entity ID | Description
--- | -- | --
-`weather`| `weather.meteo_lt_ABCD` | A Home Assistant `weather` entity, with current data, and hourly forecast data. The first forecast record is treated as current data.
-`sensor` | `sensor.meteo_lt_ABCD_current_conditions` | Sensor with all available data taken from the forecast first record and native value set to `temperature`
-`sensor` | `sensor.meteo_lt_ABCD_temperature` | Sensor with `temperature` attribute taken from the forecast first record
-`sensor` | `sensor.meteo_lt_ABCD_apparent_temperature` | Sensor with `apparent_temperature` attribute taken from the forecast first record
-`sensor` | `sensor.meteo_lt_ABCD_wind_speed` | Sensor with `wind_speed` attribute taken from the forecast first record
-`sensor` | `sensor.meteo_lt_ABCD_wind_gust_speed` | Sensor with `wind_gust_speed` attribute taken from the forecast first record
-`sensor` | `sensor.meteo_lt_ABCD_wind_bearing` | Sensor with `wind_bearing` attribute taken from the forecast first record
-`sensor` | `sensor.meteo_lt_ABCD_cloud_coverage` | Sensor with `cloud_coverage` attribute taken from the forecast first record
-`sensor` | `sensor.meteo_lt_ABCD_pressure` | Sensor with `pressure` attribute taken from the forecast first record
-`sensor` | `sensor.meteo_lt_ABCD_humidity` | Sensor with `humidity` attribute taken from the forecast first record
-`sensor` | `sensor.meteo_lt_ABCD_precipitation` | Sensor with `precipitation` attribute taken from the forecast first record
-`sensor` | `sensor.meteo_lt_ABCD_condition` | Sensor with `condition` attribute taken from the forecast first record
+| Platform  | Entity ID                                   | Description                                                                                                                           |
+| --------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `weather` | `weather.meteo_lt_ABCD`                     | A Home Assistant `weather` entity, with current data, and hourly forecast data. The first forecast record is treated as current data. |
+| `sensor`  | `sensor.meteo_lt_ABCD_current_conditions`   | Sensor with all available data taken from the forecast first record and native value set to `temperature`                             |
+| `sensor`  | `sensor.meteo_lt_ABCD_temperature`          | Sensor with `temperature` attribute taken from the forecast first record                                                              |
+| `sensor`  | `sensor.meteo_lt_ABCD_apparent_temperature` | Sensor with `apparent_temperature` attribute taken from the forecast first record                                                     |
+| `sensor`  | `sensor.meteo_lt_ABCD_wind_speed`           | Sensor with `wind_speed` attribute taken from the forecast first record                                                               |
+| `sensor`  | `sensor.meteo_lt_ABCD_wind_gust_speed`      | Sensor with `wind_gust_speed` attribute taken from the forecast first record                                                          |
+| `sensor`  | `sensor.meteo_lt_ABCD_wind_bearing`         | Sensor with `wind_bearing` attribute taken from the forecast first record                                                             |
+| `sensor`  | `sensor.meteo_lt_ABCD_cloud_coverage`       | Sensor with `cloud_coverage` attribute taken from the forecast first record                                                           |
+| `sensor`  | `sensor.meteo_lt_ABCD_pressure`             | Sensor with `pressure` attribute taken from the forecast first record                                                                 |
+| `sensor`  | `sensor.meteo_lt_ABCD_humidity`             | Sensor with `humidity` attribute taken from the forecast first record                                                                 |
+| `sensor`  | `sensor.meteo_lt_ABCD_precipitation`        | Sensor with `precipitation` attribute taken from the forecast first record                                                            |
+| `sensor`  | `sensor.meteo_lt_ABCD_condition`            | Sensor with `condition` attribute taken from the forecast first record                                                                |
 
 Where `ABCD` is name of the nearest place calculated using place list downloaded from `api.meteo.lt`
 
@@ -36,9 +36,27 @@ Implementation has been done using Home Assistant version **2024.7.3**. Older ve
 
 ## Installation through HACS (Recommended Method)
 
-This Integration is *not* yet a part of the default HACS store. Add it as *Custom Repository* following [this](https://hacs.xyz/docs/faq/custom_repositories/), download it and *Meteo.lt* can be found under Integrations. Install it from there. After the installation of the files, you must restart Home Assistant, or else you will not be able to add *Meteo.lt* from the Integration Page.
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Brunas&repository=meteo_lt&category=integration)
 
-If you are not familiar with HACS, or haven't installed it, I would recommend to [look through the HACS documentation](https://hacs.xyz/), before continuing. Even though you can install the Integration manually, I would recommend using HACS, as you would always be reminded when a new release is published.
+or
+
+1. Go to HACS->Integrations
+2. Add this repo into your HACS custom repositories
+3. Search for `Meteo.Lt Integration` and Download it
+4. Restart your HomeAssistant
+5. Go to Settings->Devices & Services
+6. Shift reload your browser
+
+### Setup the Integration
+
+[![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=meteo_lt)
+
+1. Click Add Integration
+1. Search for `Meteo.Lt`
+1. Enter latitude and longitude to use for the integration. Default values are Home Assistant Home location.
+1. Unlimitted number of locations is supported. If an entity for the same place exists, new entity gets numeric suffix to the name.
+1. You're all set
+
 
 ## Manual Installation
 
@@ -49,7 +67,7 @@ If you are not familiar with HACS, or haven't installed it, I would recommend to
 1. Place the files you downloaded in the new directory (folder) you created.
 1. Added `meteo_lt:` into your `configuration.yaml`
 1. Restart Home Assistant
-1. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "Meteo.Lt":
+1. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for `Meteo.Lt`:
      - Enter latitude and longitude to use for the integration. Default values are Home Assistant Home location.
      - Unlimitted number of locations is supported. If an entity for the same place exists, new entity gets numeric suffix to the name.
 
