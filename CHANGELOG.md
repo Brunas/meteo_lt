@@ -1,3 +1,13 @@
+## Release 0.3.0
+
+Date: `2025-09-29`
+
+### Changes
+
+- Introduction condition map from meteo.lt API to HASS (moved from `meteo_lt-pkg`)
+- Fixed night time clear sky condition using `sun.sun` state value `above_horizon`
+- Usual version bumps
+
 ## Release 0.2.6
 
 Date: `2025-05-10`
