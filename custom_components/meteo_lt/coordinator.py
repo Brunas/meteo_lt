@@ -63,16 +63,22 @@ class MeteoLtCoordinator(DataUpdateCoordinator):
 
     async def _async_update_data(self):
         """Fetch data from API."""
-        forecast_data = await self.api.get_forecast(self.nearest_place.code)
+        forecast = await self.api.get_forecast(self.nearest_place.code)
 
-        for forecast in forecast_data:
-            forecast_time_utc = dt.parse_datetime(forecast["datetime"])
-            if "condition_code" in forecast:
-                forecast["condition"] = self._map_condition(
-                    forecast["condition_code"], forecast_time_utc
-                )
+        if forecast.current_conditions:
+            forecast_time_utc = dt.parse_datetime(forecast.current_conditions.datetime)
+            forecast.current_conditions.condition = self._map_condition(
+                forecast.current_conditions.condition_code,
+                forecast_time_utc
+            )
 
-        LOGGER.debug("Forecast calculated: %s", forecast_data)
+        for timestamp in forecast.forecast_timestamps:
+            forecast_time_utc = dt.parse_datetime(timestamp.datetime)
+            timestamp.condition = self._map_condition(
+                timestamp.condition_code,
+                forecast_time_utc
+            )
 
+        LOGGER.debug("Forecast calculated: %s", forecast)
         self.last_updated = datetime.now().astimezone(timezone.utc).isoformat()
-        return forecast_data
+        return forecast
