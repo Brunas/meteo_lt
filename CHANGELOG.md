@@ -1,3 +1,11 @@
+## Release 0.3.1
+
+Date: `2025-09-30`
+
+### Changes
+
+- HA helper function `sun.is_up` used to identify day
+
 ## Release 0.3.0
 
 Date: `2025-09-29`

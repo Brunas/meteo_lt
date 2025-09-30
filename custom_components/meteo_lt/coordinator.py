@@ -2,6 +2,7 @@
 
 from datetime import datetime, timedelta, timezone
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from homeassistant.helpers import sun
 from homeassistant.util import dt
 
 from .const import MANUFACTURER, LOGGER, UPDATE_MINUTES
@@ -23,20 +24,9 @@ class MeteoLtCoordinator(DataUpdateCoordinator):
             always_update=True,
         )
 
-    def _is_daytime(self, forecast_time_utc):
-        """Check if it's daytime using sun sensor data."""
-        sun_state = self.hass.states.get("sun.sun")
-        if not sun_state:
-            return True
-
-        next_rising_utc = dt.parse_datetime(sun_state.attributes["next_rising"])
-        next_setting_utc = dt.parse_datetime(sun_state.attributes["next_setting"])
-
-        return next_rising_utc <= forecast_time_utc <= next_setting_utc
-
     def _map_condition(self, condition_code, forecast_time_utc):
         """Map API weather condition to HA condition."""
-        is_day = self._is_daytime(forecast_time_utc)
+        is_day = sun.is_up(self.hass, forecast_time_utc)
         condition_mapping = {
             "clear": "sunny" if is_day else "clear-night",
             "partly-cloudy": "partlycloudy",
