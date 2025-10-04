@@ -1,3 +1,12 @@
+## Release 0.4.0
+
+Date: `2025-10-04`
+
+### Changes
+
+- Upped `meteo_lt-pkg` version to support weather warnings which will require more work to make them nicely available in Home Assistant
+- Upped `homeassistant` package version to `2025.1.4`
+
 ## Release 0.3.1
 
 Date: `2025-09-30`
