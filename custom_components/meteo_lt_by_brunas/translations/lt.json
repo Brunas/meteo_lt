@@ -1,18 +1,18 @@
 {
-    "title": "Meteo.Lt",
+    "title": "Meteo.Lt by Brunas",
     "config": {
         "step": {
             "user": {
-                "title": "Konfigūruoti Meteo.Lt",
-                "description": "Nustatyti Meteo.Lt integraciją su Home Assistant.",
+                "title": "Konfigūruoti Meteo.Lt by Brunas",
+                "description": "Nustatyti Meteo.Lt by Brunas integraciją su Home Assistant.",
                 "data": {
                     "latitude": "Platuma (latitude)",
                     "longitude": "Ilguma (longitude)"
                 }
             },
             "reconfigure": {
-                "title": "Perkonfigūruoti Meteo.Lt",
-                "description": "Atnaujinti Meteo.Lt integracijos nustatymus.",
+                "title": "Perkonfigūruoti Meteo.Lt by Brunas",
+                "description": "Atnaujinti Meteo.Lt by Brunas integracijos nustatymus.",
                 "data": {
                     "latitude": "Platuma (latitude)",
                     "longitude": "Ilguma (longitude)"
@@ -20,7 +20,7 @@
             },
             "reconfigure_confirm": {
                 "title": "Patvirtinti perkonfigūravimą",
-                "description": "Ar jūs tikrai norite perkonfigūruoti Meteo.Lt integraciją?"
+                "description": "Ar jūs tikrai norite perkonfigūruoti Meteo.Lt by Brunas integraciją?"
             }
         }
     }

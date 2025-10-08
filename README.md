@@ -1,7 +1,10 @@
-# Meteo.LT integration for Home Assistant
+# Meteo.LT by Brunas integration for Home Assistant
 <img width="90" height="90" src="https://github.com/Brunas/meteo_lt/blob/main/images/icon.png?raw=true" style="float: left; margin-right: 20px; margin-top: 10px;" >
 
 Home Assistant integration for Meteo.Lt REST API
+
+>**NOTE:** Renamed since there will be/is official meteo.lt integration in Home Assistant core.
+
 
 [![GitHub Release][releases-shield]][releases]
 [![GitHub Activity][commits-shield]][commits]
