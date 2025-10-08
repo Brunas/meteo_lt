@@ -44,6 +44,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
         MeteoLtHumiditySensor(coordinator, nearest_place, entry),
         MeteoLtPrecipitationSensor(coordinator, nearest_place, entry),
         MeteoLtConditionSensor(coordinator, nearest_place, entry),
+        MeteoLtWarningsSensor(coordinator, nearest_place, entry),
     ]
 
     async_add_entities(sensors)
@@ -140,6 +141,7 @@ class MeteoLtCurrentConditionsSensor(MeteoLtBaseSensor):
             "humidity": current_conditions.humidity,
             "native_precipitation": current_conditions.precipitation,
             "condition": current_conditions.condition,
+            "warnings": current_conditions.warnings,
             "native_temperature_unit": UnitOfTemperature.CELSIUS,
             "native_wind_speed_unit": UnitOfSpeed.METERS_PER_SECOND,
             "native_pressure_unit": UnitOfPressure.HPA,
@@ -289,3 +291,11 @@ class MeteoLtConditionSensor(MeteoLtBaseSensor):
     def __init__(self, coordinator, nearest_place, config_entry):
         # Text representation of conditions
         super().__init__(coordinator, nearest_place, config_entry, "condition")
+
+
+class MeteoLtWarningsSensor(MeteoLtBaseSensor):
+    """MeteoLtWarningsSensor"""
+
+    def __init__(self, coordinator, nearest_place, config_entry):
+        # Text representation of warnings
+        super().__init__(coordinator, nearest_place, config_entry, "warnings")

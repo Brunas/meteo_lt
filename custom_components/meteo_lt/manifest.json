@@ -1,6 +1,6 @@
 {
-    "domain": "meteo_lt",
-    "name": "Meteo.Lt",
+    "domain": "meteo_lt_by_brunas",
+    "name": "Meteo.Lt by Brunas",
     "codeowners": [
         "@Brunas"
     ],
@@ -14,7 +14,7 @@
         "meteo_lt"
     ],
     "requirements": [
-        "meteo_lt-pkg>=0.3.0,<0.4"
+        "meteo_lt-pkg>=0.4.0,<0.5"
     ],
-    "version": "0.3.0"
+    "version": "0.4.0"
 }

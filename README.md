@@ -9,7 +9,7 @@ Home Assistant integration for Meteo.Lt REST API
 ![Project Maintenance][maintenance-shield]
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-<a href="https://buymeacoffee.com/pdfdc52z8h" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 25px !important;" ></a>
+<a href="https://buymeacoffee.com/pdfdc52z8h" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="max-width: 30% !important;" ></a>
 
 This integration adds support for retrieving the Forecast data from [Api.Meteo.Lt](https://api.meteo.lt) and setting up following platforms in Home Assistant:
 
@@ -27,10 +27,11 @@ This integration adds support for retrieving the Forecast data from [Api.Meteo.L
 | `sensor`  | `sensor.meteo_lt_ABCD_humidity`             | Sensor with `humidity` attribute taken from the forecast first record                                                                 |
 | `sensor`  | `sensor.meteo_lt_ABCD_precipitation`        | Sensor with `precipitation` attribute taken from the forecast first record                                                            |
 | `sensor`  | `sensor.meteo_lt_ABCD_condition`            | Sensor with `condition` attribute taken from the forecast first record                                                                |
+| `sensor`  | `sensor.meteo_lt_ABCD_warnings`             | Sensor with `warnings` attribute taken from the forecast first record                                                                 |
 
 Where `ABCD` is name of the nearest place calculated using place list downloaded from `api.meteo.lt`
 
-Implementation has been done using Home Assistant version **2024.7.3**. Older versions could work too as long as the new Weather entity forecast types exist. Integration does **not** create Forecast Attributes.
+Implementation has been done using Home Assistant version **2025.1.4**. Older versions could work too as long as the new Weather entity forecast types exist. Integration does **not** create Forecast Attributes.
 
 >**NOTE:** At the moment of writing this - api.meteo.lt data renewal happens every 3 hours.
 

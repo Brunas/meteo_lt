@@ -5,6 +5,7 @@ from typing import Final
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from meteo_lt import MeteoLtAPI
 from .const import DOMAIN, MANUFACTURER, LOGGER
@@ -19,7 +20,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     hass.data.setdefault(DOMAIN, {})
 
-    api = MeteoLtAPI()
+    api = MeteoLtAPI(async_get_clientsession(hass))
     latitude = entry.data.get("latitude", hass.config.latitude)
     longitude = entry.data.get("longitude", hass.config.longitude)
     LOGGER.debug("Configured coordinates: %s, %s", latitude, longitude)
