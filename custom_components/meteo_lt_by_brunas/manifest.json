@@ -11,7 +11,7 @@
     "iot_class": "cloud_polling",
     "issue_tracker": "https://github.com/Brunas/meteo_lt/issues",
     "loggers": [
-        "meteo_lt"
+        "meteo_lt_by_brunas"
     ],
     "requirements": [
         "meteo_lt-pkg>=0.4.0,<0.5"
