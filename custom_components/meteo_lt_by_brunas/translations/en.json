@@ -1,18 +1,18 @@
 {
-    "title": "Meteo.Lt",
+    "title": "Meteo.Lt by Brunas",
     "config": {
         "step": {
             "user": {
-                "title": "Configure Meteo.Lt",
-                "description": "Set up Meteo.Lt integration with your Home Assistant.",
+                "title": "Configure Meteo.Lt by Brunas",
+                "description": "Set up Meteo.Lt by Brunas integration with your Home Assistant.",
                 "data": {
                     "latitude": "Latitude",
                     "longitude": "Longitude"
                 }
             },
             "reconfigure": {
-                "title": "Reconfigure Meteo.Lt",
-                "description": "Update your Meteo.Lt integration settings.",
+                "title": "Reconfigure Meteo.Lt by Brunas",
+                "description": "Update your Meteo.Lt by Brunas integration settings.",
                 "data": {
                     "latitude": "Latitude",
                     "longitude": "Longitude"
@@ -20,7 +20,7 @@
             },
             "reconfigure_confirm": {
                 "title": "Confirm Reconfiguration",
-                "description": "Are you sure you want to reconfigure the Meteo.Lt integration?"
+                "description": "Are you sure you want to reconfigure the Meteo.Lt by Brunas integration?"
             }
         }
     }
