@@ -1,11 +1,12 @@
 ## Release 0.4.0
 
-Date: `2025-10-04`
+Date: `2025-10-08`
 
 ### Changes
 
 - Upped `meteo_lt-pkg` version to support weather warnings which will require more work to make them nicely available in Home Assistant
 - Upped `homeassistant` package version to `2025.1.4`
+- Domain changed to `meteo_lt_by_brunas` and the name to `Meteo.Lt by Brunas` to avoid confusion with `core/meteo_lt` by LHMT
 
 ## Release 0.3.1
 
