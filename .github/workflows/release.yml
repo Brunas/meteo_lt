@@ -26,15 +26,15 @@ jobs:
         shell: bash
         run: |
           yq -i -o json '.version="${{ env.VERSION }}"' \
-            "${{ github.workspace }}/custom_components/meteo_lt/manifest.json"
+            "${{ github.workspace }}/custom_components/meteo_lt_by_brunas/manifest.json"
 
       - name: ZIP the integration directory
         shell: bash
         run: |
-          cd "${{ github.workspace }}/custom_components/meteo_lt"
-          zip meteo_lt-${{ env.VERSION }}.zip -r ./
+          cd "${{ github.workspace }}/custom_components/meteo_lt_by_brunas"
+          zip meteo_lt_by_brunas-${{ env.VERSION }}.zip -r ./
 
       - name: Upload the ZIP file to the release
         uses: softprops/action-gh-release@v2.4.1
         with:
-          files: ${{ github.workspace }}/custom_components/meteo_lt/meteo_lt-${{ env.VERSION }}.zip
+          files: ${{ github.workspace }}/custom_components/meteo_lt_by_brunas/meteo_lt_by_brunas-${{ env.VERSION }}.zip
