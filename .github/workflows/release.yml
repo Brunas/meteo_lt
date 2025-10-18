@@ -43,9 +43,13 @@ jobs:
           echo "Zipping integration in $DIR as $NAME-${{ env.VERSION }}.zip"
           cd "$DIR"
           zip "$NAME-${{ env.VERSION }}.zip" -r ./
+          ZIP_PATH="$DIR/$NAME-${{ env.VERSION }}.zip"
+          echo "ZIP_PATH=$ZIP_PATH" >> $GITHUB_ENV
+          echo "Created $ZIP_PATH"
+          ls -l "$ZIP_PATH" || true
 
       - name: Upload the ZIP file to the release
         uses: softprops/action-gh-release@v2.4.1
         with:
-          files: |
-            $(find "${{ github.workspace }}/custom_components" -maxdepth 2 -type f -name "*-${{ env.VERSION }}.zip" -print -quit)
+          files: ${{ env.ZIP_PATH }}
+          overwrite_files: true
