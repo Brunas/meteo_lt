@@ -25,16 +25,27 @@ jobs:
       - name: Adjust version number
         shell: bash
         run: |
-          yq -i -o json '.version="${{ env.VERSION }}"' \
-            "${{ github.workspace }}/custom_components/meteo_lt_by_brunas/manifest.json"
+          MANIFEST=$(find "${{ github.workspace }}/custom_components" -maxdepth 2 -type f -name manifest.json -print -quit)
+          if [ -z "$MANIFEST" ]; then
+            echo "ERROR: manifest.json not found under custom_components" >&2
+            ls -al "${{ github.workspace }}/custom_components" || true
+            exit 1
+          fi
+          echo "Found manifest: $MANIFEST"
+          yq -i -o json '.version="${{ env.VERSION }}"' "$MANIFEST"
 
       - name: ZIP the integration directory
         shell: bash
         run: |
-          cd "${{ github.workspace }}/custom_components/meteo_lt_by_brunas"
-          zip meteo_lt_by_brunas-${{ env.VERSION }}.zip -r ./
+          MANIFEST=$(find "${{ github.workspace }}/custom_components" -maxdepth 2 -type f -name manifest.json -print -quit)
+          DIR=$(dirname "$MANIFEST")
+          NAME=$(basename "$DIR")
+          echo "Zipping integration in $DIR as $NAME-${{ env.VERSION }}.zip"
+          cd "$DIR"
+          zip "$NAME-${{ env.VERSION }}.zip" -r ./
 
       - name: Upload the ZIP file to the release
         uses: softprops/action-gh-release@v2.4.1
         with:
-          files: ${{ github.workspace }}/custom_components/meteo_lt_by_brunas/meteo_lt_by_brunas-${{ env.VERSION }}.zip
+          files: |
+            $(find "${{ github.workspace }}/custom_components" -maxdepth 2 -type f -name "*-${{ env.VERSION }}.zip" -print -quit)
