@@ -1,5 +1,5 @@
 # Meteo.LT by Brunas integration for Home Assistant
-<img width="90" height="90" src="https://github.com/Brunas/meteo_lt/blob/main/images/icon.png?raw=true" style="float: left; margin-right: 20px; margin-top: 10px;" >
+<img width="90" height="90" src="https://github.com/Brunas/meteo_lt_by_brunas/blob/main/images/icon.png?raw=true" style="float: left; margin-right: 20px; margin-top: 10px;" >
 
 Home Assistant integration for Meteo.Lt REST API
 
@@ -40,23 +40,23 @@ Implementation has been done using Home Assistant version **2025.1.4**. Older ve
 
 ## Installation through HACS (Recommended Method)
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Brunas&repository=meteo_lt&category=integration)
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Brunas&repository=meteo_lt_by_brunas&category=integration)
 
 or
 
 1. Go to HACS->Integrations
 2. Add this repo into your HACS custom repositories
-3. Search for `Meteo.Lt Integration` and Download it
+3. Search for `Meteo.Lt by Brunas Integration` and Download it
 4. Restart your HomeAssistant
 5. Go to Settings->Devices & Services
 6. Shift reload your browser
 
 ### Setup the Integration
 
-[![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=meteo_lt)
+[![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=meteo_lt_by_brunas)
 
 1. Click Add Integration
-1. Search for `Meteo.Lt`
+1. Search for `Meteo.Lt by Brunas`
 1. Enter latitude and longitude to use for the integration. Default values are Home Assistant Home location.
 1. Unlimitted number of locations is supported. If an entity for the same place exists, new entity gets numeric suffix to the name.
 1. You're all set
@@ -66,12 +66,12 @@ or
 
 1. Using the tool of choice open the directory (folder) for your HA configuration (where you find `configuration.yaml`).
 1. If you do not have a `custom_components` directory (folder) there, you need to create it.
-1. In the `custom_components` directory (folder) create a new folder called `meteo_lt`.
-1. Download _all_ the files from the `custom_components/meteo_lt/` directory (folder) in this repository.
+1. In the `custom_components` directory (folder) create a new folder called `meteo_lt_by_brunas`.
+1. Download _all_ the files from the `custom_components/meteo_lt_by_brunas/` directory (folder) in this repository.
 1. Place the files you downloaded in the new directory (folder) you created.
-1. Added `meteo_lt:` into your `configuration.yaml`
+1. Added `meteo_lt_by_brunas:` into your `configuration.yaml`
 1. Restart Home Assistant
-1. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for `Meteo.Lt`:
+1. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for `Meteo.Lt by Brunas`:
      - Enter latitude and longitude to use for the integration. Default values are Home Assistant Home location.
      - Unlimitted number of locations is supported. If an entity for the same place exists, new entity gets numeric suffix to the name.
 
@@ -83,7 +83,7 @@ If logs are needed for debugging or reporting an issue, turn debugging in integr
 logger:
   default: error
   logs:
-    custom_components.meteo_lt: debug
+    custom_components.meteo_lt_by_brunas: debug
 ```
 
 ## Inspired by
@@ -98,10 +98,10 @@ logger:
 ***
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/Brunas/meteo_lt.svg?style=flat-square
-[commits]: https://github.com/Brunas/meteo_lt/commits/main
+[commits]: https://github.com/Brunas/meteo_lt_by_brunas/commits/main
 [hacs]: https://github.com/hacs/integration
 [hacsbadge]: https://img.shields.io/badge/HACS-Default-orange.svg?style=flat-square
-[license-shield]: https://img.shields.io/github/license/Brunas/meteo_lt.svg?style=flat-square
+[license-shield]: https://img.shields.io/github/license/Brunas/meteo_lt_by_brunas.svg?style=flat-square
 [maintenance-shield]: https://img.shields.io/badge/maintainer-Brunas%20%40Brunas-blue.svg?style=flat-square
-[releases-shield]: https://img.shields.io/github/release/Brunas/meteo_lt.svg?style=flat-square
-[releases]: https://github.com/Brunas/meteo_lt/releases
+[releases-shield]: https://img.shields.io/github/release/Brunas/meteo_lt_by_brunas.svg?style=flat-square
+[releases]: https://github.com/Brunas/meteo_lt_by_brunas/releases
