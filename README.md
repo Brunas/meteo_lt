@@ -3,16 +3,17 @@
 
 Home Assistant integration for Meteo.Lt REST API
 
->**NOTE:** I was forced to rename integration since there will be/is official meteo.lt integration in Home Assistant core. That means entities will be renamed too.
-
-
 [![GitHub Release][releases-shield]][releases]
 [![GitHub Activity][commits-shield]][commits]
 [![License][license-shield]](LICENSE)
 ![Project Maintenance][maintenance-shield]
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-<a href="https://buymeacoffee.com/pdfdc52z8h" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="width: 30% !important;" ></a>
+<a href="https://buymeacoffee.com/pdfdc52z8h" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="20%"></a>
+
+
+**IMPORTANT NOTE:** I had to rename integration since there will be/is official meteo.lt integration in Home Assistant core. Unfortunately, that means entities will be renamed too.
+
 
 This integration adds support for retrieving the Forecast data from [Api.Meteo.Lt](https://api.meteo.lt) and setting up following platforms in Home Assistant:
 
